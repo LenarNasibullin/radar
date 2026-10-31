@@ -10,7 +10,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#131315}
 ul,ol{margin:0;padding:0;list-style:none}
@@ -20,7 +20,7 @@ h1,h2,h3,p,dl,dd{margin:0}
 button,select,input,a{font-family:inherit}
 button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #7AAEDC;outline-offset:2px;border-radius:8px}
 input::placeholder{color:#8C8C95}
-.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.mono{font-variant-numeric:tabular-nums;font-feature-settings:'tnum'}
 body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 h1,h2{text-wrap:balance}
 .chip,.tab,.navlink,.btn-primary,.btn-secondary,.segbtn,.listrow,.exchip{transition:background-color 140ms cubic-bezier(0.23,1,0.32,1),color 140ms cubic-bezier(0.23,1,0.32,1),transform 160ms cubic-bezier(0.23,1,0.32,1)}
@@ -48,7 +48,9 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 .appgrid{grid-template-columns:28px minmax(0,1fr) 62px 66px !important;gap:10px !important;padding-left:12px !important;padding-right:12px !important}
 .thgrid{grid-template-columns:minmax(0,1fr) 72px 90px !important;gap:10px !important;padding-left:12px !important;padding-right:12px !important}
 .sidenav{flex-direction:row !important;flex-wrap:wrap;align-items:center;gap:8px 16px !important;padding:12px 16px !important;border-right:0 !important;border-bottom:1px solid #2A2A2E}
-.navlist{flex-direction:row !important;flex-wrap:wrap}
+.navlist{flex-direction:row !important;flex-wrap:nowrap;width:100%;gap:2px !important}
+.navlink{padding:8px 10px !important;gap:0 !important;width:auto !important}
+.navlink svg{display:none}
 .mainpad{padding:20px 16px 32px !important}
 }
 @media (prefers-reduced-motion: no-preference){
@@ -67,8 +69,8 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 </div>
 <ul class="navlist" style="display:flex;flex-direction:column;gap:4px">
 <li><button type="button" class="navlink" onClick="{{go.radar}}" aria-current="{{cur.radar}}" style="{{navStyle.radar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12 18.5 5.5"/></svg>Радар</button></li>
-<li><button type="button" class="navlink" onClick="{{go.collections}}" aria-current="{{cur.collections}}" style="{{navStyle.collections}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg>Подборки<sc-if value="{{hasColCount}}" hint-placeholder-val="{{false}}"><span class="mono" style="margin-left:auto;font-size:12px;color:#86CB95;background:rgba(134,203,149,0.14);padding:1px 8px;border-radius:999px">{{colCount}}</span></sc-if></button></li>
-<li><button type="button" class="navlink" onClick="{{go.watch}}" aria-current="{{cur.watch}}" style="{{navStyle.watch}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Слежу<sc-if value="{{hasWatchCount}}" hint-placeholder-val="{{false}}"><span class="mono" style="margin-left:auto;font-size:12px;color:#86CB95;background:rgba(134,203,149,0.14);padding:1px 8px;border-radius:999px">{{watchCount}}</span></sc-if></button></li>
+<li><button type="button" class="navlink" onClick="{{go.collections}}" aria-current="{{cur.collections}}" style="{{navStyle.collections}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg>Подборки<sc-if value="{{hasColCount}}" hint-placeholder-val="{{false}}"><span class="mono" style="margin-left:auto;font-size:12px;color:#CBCBD0;background:#2C2C31;padding:1px 8px;border-radius:999px">{{colCount}}</span></sc-if></button></li>
+<li><button type="button" class="navlink" onClick="{{go.watch}}" aria-current="{{cur.watch}}" style="{{navStyle.watch}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Слежу<sc-if value="{{hasWatchCount}}" hint-placeholder-val="{{false}}"><span class="mono" style="margin-left:auto;font-size:12px;color:#CBCBD0;background:#2C2C31;padding:1px 8px;border-radius:999px">{{watchCount}}</span></sc-if></button></li>
 <li><button type="button" class="navlink" onClick="{{go.settings}}" aria-current="{{cur.settings}}" style="{{navStyle.settings}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Настройки</button></li>
 </ul>
 </nav>
@@ -89,7 +91,6 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <p style="display:flex;flex-wrap:wrap;gap:4px 18px;margin-right:4px;font-size:12px;color:#A0A0A8">
 <span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#86CB95;display:inline-block"></span>App Store, США · сегодня, 06:10</span>
 </p>
-<span style="font-size:12px;font-weight:500;color:#D9B060;background:rgba(217,176,96,0.12);padding:4px 10px;border-radius:999px">Демо-данные</span>
 <button type="button" class="btn-secondary" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px;font-weight:500;cursor:pointer">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></svg>Экспорт в CSV</button>
 </div>
@@ -144,7 +145,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end">
 <div style="flex:0 1 250px;display:flex;flex-direction:column;gap:6px">
 <span id="lnlbl" style="font-size:12px;color:#A0A0A8;font-weight:500">Запущено за последние</span>
-<div role="group" aria-labelledby="lnlbl" style="display:flex;gap:4px;padding:4px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
+<div role="group" aria-labelledby="lnlbl" style="display:flex;gap:4px;padding:3px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
 <sc-for list="{{launchedChips}}" as="c" hint-placeholder-count="3">
 <button type="button" class="segbtn" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
 </sc-for>
@@ -152,7 +153,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 </div>
 <div style="flex:0 1 250px;display:flex;flex-direction:column;gap:6px">
 <span id="gwlbl" style="font-size:12px;color:#A0A0A8;font-weight:500">Рост дохода за</span>
-<div role="group" aria-labelledby="gwlbl" style="display:flex;gap:4px;padding:4px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
+<div role="group" aria-labelledby="gwlbl" style="display:flex;gap:4px;padding:3px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
 <sc-for list="{{growthChips}}" as="c" hint-placeholder-count="3">
 <button type="button" class="segbtn" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
 </sc-for>
@@ -160,7 +161,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 </div>
 <div style="flex:1 1 170px;display:flex;flex-direction:column;gap:6px">
 <label for="excountry" style="font-size:12px;color:#A0A0A8;font-weight:500">Страны</label>
-<select id="excountry" value="" onChange="{{onExCountry}}" style="min-height:50px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+<select id="excountry" value="" onChange="{{onExCountry}}" style="min-height:44px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
 <option value="">Исключить страну…</option>
 <!--COUNTRIES--><option value="CN">Китай</option>
 <option value="US">США</option>
@@ -171,7 +172,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 </div>
 <div style="flex:1 1 170px;display:flex;flex-direction:column;gap:6px">
 <label for="excat" style="font-size:12px;color:#A0A0A8;font-weight:500">Категории</label>
-<select id="excat" value="" onChange="{{onExCat}}" style="min-height:50px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+<select id="excat" value="" onChange="{{onExCat}}" style="min-height:44px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
 <option value="">Исключить категорию…</option>
 <!--CATS-EX--><option value="Здоровье и фитнес">Здоровье и фитнес</option>
 <option value="Продуктивность">Продуктивность</option>
@@ -212,7 +213,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <sc-if value="{{isThemes}}" hint-placeholder-val="{{true}}">
 <div class="tblmin" style="min-width:700px">
 <div class="thgrid" style="display:grid;grid-template-columns:minmax(180px,1.4fr) 100px 130px 120px 100px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid #2A2A2E;font-size:12px;font-weight:500;color:#A0A0A8">
-<span>Тема</span><span>Новых за неделю</span><span class="hide-sm">8 недель</span><span>Конкуренция</span><span class="hide-sm" style="text-align:right">Темп оценок</span>
+<span>Тема</span><span>{{countHead}}</span><span class="hide-sm">8 недель</span><span>Конкуренция</span><span class="hide-sm" style="text-align:right">Темп оценок</span>
 </div>
 <ul onKeyDown="{{onKey}}">
 <sc-for list="{{themeRows}}" as="row" hint-placeholder-count="6">
@@ -247,7 +248,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <li class="listrow appgrid" style="{{row.liStyle}}">
 <span class="mono" style="{{row.rankStyle}}">{{row.rankN}}</span>
 <button type="button" id="{{row.domId}}" class="rowbtn" onClick="{{row.pick}}" aria-pressed="{{row.selected}}" aria-label="{{row.aria}}" style="display:flex;align-items:center;gap:12px;min-width:0;min-height:44px;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer">
-<span style="{{row.tileStyle}}">{{row.initial}}</span>
+<span style="{{row.tileStyle}}">{{row.initial}}<sc-if value="{{row.hasIcon}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="{{row.iconStyle}}"></span></sc-if></span>
 <span style="display:flex;flex-direction:column;min-width:0"><span class="rname" style="font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{row.name}}</span><span style="font-size:12px;color:#A0A0A8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{row.cat}} · {{row.age}} дн.</span></span>
 </button>
 <span class="mono" style="font-size:15px;text-align:right">{{row.mrrText}}</span>
@@ -290,7 +291,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <p style="font-size:13px;color:#A0A0A8">{{theme.cat}}</p>
 </div>
 <dl style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;padding:14px 0;border-top:1px solid #2A2A2E;border-bottom:1px solid #2A2A2E">
-<div><dt style="font-size:12px;color:#A0A0A8">Новых за неделю</dt><dd class="mono" style="font-size:19px">{{theme.count}}</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">{{theme.countHead}}</dt><dd class="mono" style="font-size:19px">{{theme.count}}</dd></div>
 <div><dt style="font-size:12px;color:#A0A0A8">К прошлой неделе</dt><dd class="mono" style="{{theme.deltaStyleBig}}">{{theme.deltaText}}</dd></div>
 <div><dt style="font-size:12px;color:#A0A0A8">Крупных игроков</dt><dd class="mono" style="font-size:19px">{{theme.giants}}</dd></div>
 </dl>
@@ -333,7 +334,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <h3 style="font-size:14px;font-weight:600">Лидеры темы</h3>
 <ul style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{theme.leaders}}" as="l" hint-placeholder-count="2">
-<li style="display:flex;align-items:center;gap:12px"><span style="{{l.tileStyle}}">{{l.initial}}</span>
+<li style="display:flex;align-items:center;gap:12px"><span style="{{l.tileStyle}}">{{l.initial}}<sc-if value="{{l.hasIcon}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="{{l.iconStyle}}"></span></sc-if></span>
 <span style="display:flex;flex-direction:column;min-width:0;flex:1"><span style="font-weight:600;font-size:14px">{{l.name}}</span><span style="font-size:12px;color:#A0A0A8">{{l.cat}} · {{l.age}} дн.</span></span>
 <span class="mono" style="font-size:13px;color:#CBCBD0">{{l.perDayText}}</span></li>
 </sc-for>
@@ -348,7 +349,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 
 <sc-if value="{{hasDetail}}" hint-placeholder-val="{{false}}">
 <div style="display:flex;align-items:center;gap:14px">
-<span style="{{detail.tileStyle}}">{{detail.initial}}</span>
+<span style="{{detail.tileStyle}}">{{detail.initial}}<sc-if value="{{detail.hasIcon}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="{{detail.iconStyle}}"></span></sc-if></span>
 <div style="display:flex;flex-direction:column;min-width:0">
 <h2 style="font-size:19px;font-weight:600;letter-spacing:-0.01em">{{detail.name}}</h2>
 <p style="font-size:13px;color:#A0A0A8">{{detail.dev}} · {{detail.cat}} · {{detail.age}} дн.</p>
@@ -364,6 +365,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <div><dt style="font-size:12px;color:#A0A0A8">Рост за {{detail.gwLabel}}</dt><dd class="mono" style="{{detail.growthStyle}}">{{detail.growthText}}</dd></div>
 <div><dt style="font-size:12px;color:#A0A0A8">Загрузки</dt><dd class="mono" style="font-size:19px">{{detail.dlText}}</dd><dd style="font-size:12px;color:#A0A0A8">оценка</dd></div>
 </dl>
+<sc-if value="{{detail.hasHist}}" hint-placeholder-val="{{true}}">
 <div style="display:flex;flex-direction:column;gap:8px">
 <h3 style="font-size:14px;font-weight:600">Сколько оценок набирает в сутки, последние 90 дней</h3>
 <svg viewBox="0 0 420 172" width="100%" role="img" aria-label="{{detail.chartLabel}}" style="display:block;height:auto;max-width:440px">
@@ -383,11 +385,15 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <div style="display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#A0A0A8;padding-left:30px"><span>{{detail.tl}}</span><span>{{detail.tr}}</span></div>
 <p style="font-size:12px;color:#A0A0A8;min-height:18px">{{detail.onsetNote}}</p>
 </div>
+</sc-if>
+<sc-if value="{{detail.noHist}}" hint-placeholder-val="{{false}}">
+<div style="display:flex;flex-direction:column;gap:6px"><h3 style="font-size:14px;font-weight:600">Динамика оценок</h3><p style="font-size:13px;color:#A0A0A8">График появится, когда накопится несколько дней истории.</p></div>
+</sc-if>
 <div style="display:flex;flex-direction:column;gap:8px">
 <h3 style="font-size:14px;font-weight:600">Почему в списке</h3>
 <ul style="display:flex;flex-direction:column;gap:6px;color:#CBCBD0;font-size:13px">
 <sc-for list="{{detail.why}}" as="w" hint-placeholder-count="3">
-<li style="display:flex;gap:10px"><span style="width:5px;height:5px;border-radius:50%;background:#86CB95;margin-top:8px;flex:0 0 5px"></span><span>{{w}}</span></li>
+<li style="display:flex;gap:10px"><span style="width:5px;height:5px;border-radius:50%;background:#6A6A72;margin-top:8px;flex:0 0 5px"></span><span>{{w}}</span></li>
 </sc-for>
 </ul>
 </div>
@@ -421,7 +427,7 @@ input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(
 <ul style="display:flex;flex-direction:column;border:1px solid #2A2A2E;border-radius:16px;background:#1A1A1C;max-width:720px">
 <sc-for list="{{pageItems}}" as="it" hint-placeholder-count="2">
 <li style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #2A2A2E">
-<span style="{{it.tileStyle}}">{{it.initial}}</span>
+<span style="{{it.tileStyle}}">{{it.initial}}<sc-if value="{{it.hasIcon}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="{{it.iconStyle}}"></span></sc-if></span>
 <span style="display:flex;flex-direction:column;min-width:0;flex:1"><span style="font-weight:600;font-size:15px">{{it.name}}</span><span style="font-size:12px;color:#A0A0A8">{{it.kind}}</span></span>
 <button type="button" class="btn-secondary" onClick="{{it.remove}}" aria-label="{{it.aria}}" style="min-height:44px;padding:0 14px;border-radius:10px;border:1px solid #37373D;background:transparent;color:#CBCBD0;font-size:13px;font-weight:500;cursor:pointer">Убрать</button>
 </li>
@@ -460,8 +466,8 @@ function compact(n) {
   return String(n);
 }
 function segStyle(active) {
-  return 'flex:1;min-height:40px;padding:0 12px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;' +
-    (active ? 'background:rgba(134,203,149,0.14);border:1px solid rgba(134,203,149,0.45);color:#86CB95;' : 'background:transparent;border:1px solid transparent;color:#CBCBD0;');
+  return 'flex:1;min-height:36px;padding:0 12px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;' +
+    (active ? 'background:#2C2C31;border:1px solid #4C4C54;color:#ECECEE;' : 'background:transparent;border:1px solid transparent;color:#CBCBD0;');
 }
 function hsStyle(active) {
   return 'display:flex;justify-content:flex-end;align-items:center;gap:4px;background:none;border:0;padding:0;font:inherit;font-size:12px;font-weight:500;cursor:pointer;min-height:44px;color:' + (active ? '#ECECEE' : '#A0A0A8');
@@ -469,6 +475,7 @@ function hsStyle(active) {
 
 
 // DATA-BEGIN
+const SNAPSHOTS = 99;
 const APPS = [
   { id: 'mealmark', name: 'Mealmark', dev: 'Northfield Labs', cat: 'Здоровье и фитнес', theme: 'foodphoto', age: 41, rank: 38, prev: 76, ratings: 2140, perDay: 186, signal: 'fast', onset: 17, k: 1.55, tile: '#86CB95',
     why: ['Вышло 41 день назад, позиция в чарте выросла на 38 мест за неделю', 'Оценок в сутки в 3,2 раза больше среднего по категории', 'Ускорение началось на 17-й день и не затухает'],
@@ -545,17 +552,21 @@ const THEMEX = {
 };
 THEMES.forEach(t => Object.assign(t, THEMEX[t.id]));
 // DATA-END
+const IMMATURE = SNAPSHOTS < 4;
+function tp(a, size, rad, fs) {
+  return { tileStyle: 'position:relative;overflow:hidden;flex:0 0 ' + size + 'px;width:' + size + 'px;height:' + size + 'px;border-radius:' + rad + 'px;display:grid;place-items:center;font-size:' + fs + 'px;font-weight:600;color:#8C8C95;background:#2C2C31', iconStyle: 'position:absolute;inset:0;background:url("' + ((a && a.ic) || '') + '") center/cover no-repeat', hasIcon: !!(a && a.ic) };
+}
 
 const SIG = {
   fast: { label: 'Быстрый рост', color: GREEN, bg: 'rgba(134,203,149,0.14)' },
-  watch: { label: 'Наблюдать', color: OCHRE, bg: 'rgba(217,176,96,0.14)' },
+  watch: { label: 'Наблюдать', color: MUTED, bg: 'rgba(217,176,96,0.14)' },
   cool: { label: 'Остывает', color: CORAL, bg: 'rgba(227,137,122,0.14)' }
 };
 
 const COMP = {
   low: { label: 'Низкая', word: 'низкая', color: GREEN, fill: 1, note: 'Крупных игроков мало: новому приложению проще пробиться в выдачу.' },
-  mid: { label: 'Средняя', word: 'средняя', color: OCHRE, fill: 2, note: 'Несколько крупных игроков: нужно чем-то заметно отличаться.' },
-  high: { label: 'Высокая', word: 'высокая', color: CORAL, fill: 3, note: 'Тема занята крупными приложениями: без сильного отличия пробиться трудно.' }
+  mid: { label: 'Средняя', word: 'средняя', color: MUTED, fill: 2, note: 'Несколько крупных игроков: нужно чем-то заметно отличаться.' },
+  high: { label: 'Высокая', word: 'высокая', color: MUTED, fill: 3, note: 'Тема занята крупными приложениями: без сильного отличия пробиться трудно.' }
 };
 
 function fmt(n) { return new Intl.NumberFormat('ru-RU').format(n); }
@@ -619,8 +630,8 @@ class Component extends DCLogic {
     const preset = !!s.preset;
     const page = s.page ?? 'radar';
     const ownScale = !!s.ownScale;
-    const appSort = s.appSort ?? 'mrr';
-    const themeSort = s.themeSort ?? 'delta';
+    const appSort = s.appSort ?? (IMMATURE ? 'rank' : 'mrr');
+    const themeSort = s.themeSort ?? (IMMATURE ? 'count' : 'delta');
     const themeFilter = s.themeFilter ?? null;
     const col = s.col || {};
     const watch = s.watch || {};
@@ -629,6 +640,7 @@ class Component extends DCLogic {
     // ---- apps list
     let apps = APPS.filter(a => a.age <= launched && exCountry.indexOf(a.cn) < 0 && exCat.indexOf(a.cat) < 0 && (!themeFilter || a.theme === themeFilter));
     if (q) apps = apps.filter(a => (a.name + ' ' + a.dev + ' ' + a.cat + ' ' + a.words.join(' ') + ' ' + themeById(a.theme).name).toLowerCase().indexOf(q) >= 0);
+    if (appSort === 'rank') apps = apps.slice().sort((a, b) => a.rank - b.rank);
     if (appSort === 'mrr') apps = apps.slice().sort((a, b) => b.m - a.m);
     if (appSort === 'growth') apps = apps.slice().sort((a, b) => b.g[gw] - a.g[gw]);
     if (appSort === 'dl') apps = apps.slice().sort((a, b) => b.dl - a.dl);
@@ -638,12 +650,13 @@ class Component extends DCLogic {
     // ---- themes list
     const view = (t) => {
       const last = t.weeks[7], prev = t.weeks[6];
-      const delta = prev === 0 ? 0 : Math.round((last / prev - 1) * 100);
-      return { t, last, delta, lvl: compLevel(t.giants) };
+      const delta = (IMMATURE || prev === 0) ? 0 : Math.round((last / prev - 1) * 100);
+      const tot = t.weeks.reduce((x, y) => x + y, 0);
+      return { t, last: IMMATURE ? tot : last, delta, lvl: compLevel(t.giants) };
     };
     let themes = THEMES.map(view).filter(v => !v.t.hidden && (cat === 'all' || v.t.cat === cat));
     if (q) themes = themes.filter(v => (v.t.name + ' ' + v.t.cat).toLowerCase().indexOf(q) >= 0);
-    if (preset) themes = themes.filter(v => v.delta > 0 && v.t.giants <= 2);
+    if (preset) themes = themes.filter(v => (IMMATURE ? v.last > 0 : v.delta > 0) && v.t.giants <= 2);
     if (themeSort === 'delta') themes = themes.slice().sort((a, b) => b.delta - a.delta);
     if (themeSort === 'count') themes = themes.slice().sort((a, b) => b.last - a.last);
     if (themeSort === 'comp') themes = themes.slice().sort((a, b) => a.t.giants - b.t.giants);
@@ -658,8 +671,8 @@ class Component extends DCLogic {
 
     // ---- app rows
     const growthOf = (a) => a.g[gw];
-    const gStyle = (v, big) => 'display:inline-flex;align-items:center;justify-content:' + (big ? 'flex-start' : 'flex-end') + ';gap:3px;font-size:' + (big ? '19px' : '14px') + ';color:' + (v > 0 ? GREEN : v < 0 ? CORAL : MUTED);
-    const gText = (v) => (v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v) + '%';
+    const gStyle = (v, big) => 'display:inline-flex;align-items:center;justify-content:' + (big ? 'flex-start' : 'flex-end') + ';gap:3px;font-size:' + (big ? '19px' : '14px') + ';color:' + (IMMATURE ? MUTED : v > 0 ? GREEN : v < 0 ? CORAL : MUTED);
+    const gText = (v) => IMMATURE ? '—' : ((v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v) + '%');
     const rows = apps.map((a, idx) => {
       const sg = SIG[a.signal];
       const gv = growthOf(a);
@@ -675,14 +688,14 @@ class Component extends DCLogic {
         domId: 'app-' + a.id, name: a.name, cat: a.cat, age: a.age, initial: a.name.charAt(0),
         rankN: idx + 1,
         rankStyle: 'font-size:13px;text-align:center;' + (idx < 3 ? 'display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:#2C2C31;color:#ECECEE;font-weight:500' : 'color:#A0A0A8'),
-        mrrText: '$' + compact(a.m),
+        mrrText: (IMMATURE ? '≈' : '') + '$' + compact(a.m),
         growthText: gText(gv), growthStyle: gStyle(gv, false),
-        gUp: gv > 0, gDown: gv < 0,
-        dlText: compact(a.dl),
+        gUp: !IMMATURE && gv > 0, gDown: !IMMATURE && gv < 0,
+        dlText: (IMMATURE ? '≈' : '') + compact(a.dl),
         pts, onsetX: ox.toFixed(1), onsetY: oy.toFixed(1), onsetOp: inWin ? 1 : 0, curveColor: sg.color,
         chartLabel: a.name + ': оценок в сутки за последние 90 дней на общей шкале, сейчас ' + a.perDay,
         aria: a.name + ', доход около $' + compact(a.m) + ' в месяц, рост за ' + GW_LABELS[gw] + ' ' + gText(gv) + ', загрузки ' + compact(a.dl),
-        tileStyle: 'flex:0 0 38px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:16px;font-weight:600;color:#121214;background:' + a.tile,
+        ...tp(a, 38, 11, 16),
         liStyle: APP_GRID + (selected ? 'background:#222226;' : ''),
         selected,
         pick: () => this.setState({ selApp: a.id })
@@ -697,7 +710,7 @@ class Component extends DCLogic {
       const seg = (n) => 'display:inline-block;width:18px;height:6px;border-radius:3px;background:' + (n <= c.fill ? c.color : '#2F2F34');
       return {
         domId: 'theme-' + t.id, name: t.name, cat: t.cat, count: v.last,
-        deltaText: v.delta === 0 ? '0%' : sign(v.delta, '%'),
+        deltaText: IMMATURE ? '—' : (v.delta === 0 ? '0%' : sign(v.delta, '%')),
         deltaStyle: 'font-size:12px;color:' + accent,
         prevPath: barPath(t.weeks, 2, 15, 10, 36, 32, 14, 0, 7),
         lastPath: barPath(t.weeks, 2, 15, 10, 36, 32, 14, 7, 8),
@@ -705,7 +718,7 @@ class Component extends DCLogic {
         chartLabel: t.name + ': новых приложений по неделям, за 8 недель от ' + t.weeks[0] + ' до ' + t.weeks[7],
         seg1: seg(1), seg2: seg(2), seg3: seg(3),
         compLabel: c.label, compStyle: 'font-size:12px;font-weight:500;color:' + c.color,
-        perDay: t.perDay,
+        perDay: fmt(t.perDay),
         aria: t.name + ', новых за неделю ' + v.last + ', ' + (v.delta === 0 ? 'без изменений' : sign(v.delta, '%')) + ', конкуренция ' + c.word,
         liStyle: THEME_GRID + (selected ? 'background:#222226;' : ''),
         selected,
@@ -732,10 +745,10 @@ class Component extends DCLogic {
       const key = 'a:' + sa.id;
       detail = {
         name: sa.name, dev: sa.dev, cat: sa.cat, age: sa.age, initial: sa.name.charAt(0),
-        rankText: '#' + sa.rank, prevText: '#' + sa.prev, ratings: fmt(sa.ratings), perDay: sa.perDay,
-        mrrText: '$' + compact(sa.m), dlText: compact(sa.dl), gwLabel: GW_LABELS[gw],
+        rankText: '#' + sa.rank, prevText: '#' + sa.prev, ratings: fmt(sa.ratings), perDay: fmt(sa.perDay),
+        mrrText: (IMMATURE ? '≈' : '') + '$' + compact(sa.m), dlText: (IMMATURE ? '≈' : '') + compact(sa.dl), hasHist: !IMMATURE && ser.length > 2, noHist: IMMATURE || ser.length <= 2, gwLabel: GW_LABELS[gw],
         growthText: gText(gv), growthStyle: gStyle(gv, true),
-        tileStyle: 'flex:0 0 48px;width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:20px;font-weight:600;color:#121214;background:' + sa.tile,
+        ...tp(sa, 48, 13, 20),
         pts, area, curveColor: sg.color,
         endX: X(last[0]).toFixed(1), endY: Y(last[1]).toFixed(1),
         onsetX: ox.toFixed(1), onsetOp: inWin ? 1 : 0,
@@ -761,12 +774,13 @@ class Component extends DCLogic {
       const lastTop = 136 - Math.max(2, t.weeks[7] / 14 * 100);
       const key = 't:' + t.id;
       const leaders = APPS.filter(a => a.theme === t.id).map(a => ({
-        name: a.name, cat: a.cat, age: a.age, initial: a.name.charAt(0), perDayText: '+' + a.perDay + '/сут',
-        tileStyle: 'flex:0 0 34px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:15px;font-weight:600;color:#121214;background:' + a.tile
+        name: a.name, cat: a.cat, age: a.age, initial: a.name.charAt(0), perDayText: '+' + fmt(a.perDay) + '/сут',
+        ...tp(a, 34, 10, 15)
       }));
       theme = {
         name: t.name, cat: t.cat, count: stv.last, giants: t.giants,
-        deltaText: stv.delta === 0 ? '0%' : sign(stv.delta, '%'),
+        deltaText: IMMATURE ? '—' : (stv.delta === 0 ? '0%' : sign(stv.delta, '%')),
+        countHead: IMMATURE ? 'Новых за 8 недель' : 'Новых за неделю',
         deltaStyleBig: 'font-size:19px;color:' + accent,
         prevPath: barPath(t.weeks, 44.5, slot, w, 136, 100, 14, 0, 7),
         lastPath: barPath(t.weeks, 44.5, slot, w, 136, 100, 14, 7, 8),
@@ -807,7 +821,7 @@ class Component extends DCLogic {
       const name = isApp ? a.name : t.name;
       return {
         name, kind: isApp ? 'Приложение · ' + a.cat : 'Тема · ' + t.cat, initial: name.charAt(0), aria: 'Убрать ' + name,
-        tileStyle: 'flex:0 0 38px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:16px;font-weight:600;color:#121214;background:' + (isApp ? a.tile : '#B0A4DB'),
+        ...tp(isApp ? a : null, 38, 11, 16),
         remove: () => { const o = Object.assign({}, this.state && this.state[which]); o[k] = false; const u = {}; u[which] = o; this.setState(u); }
       };
     });
@@ -820,6 +834,7 @@ class Component extends DCLogic {
     const sorted = (v) => appSort === v;
     return {
       isThemes, isApps: !isThemes,
+      countHead: IMMATURE ? 'Новых за 8 нед.' : 'Новых за неделю',
       tabs: [['themes', 'Темы'], ['apps', 'Приложения']].map(([v, l]) => ({ label: l, selected: tab === v, style: tabStyle(tab === v), pick: () => this.setState({ tab: v }) })),
       q: s.q ?? '', onSearch: (e) => this.setState({ q: e.target.value }),
       catValue: cat, onCat: (e) => this.setState({ cat: e.target.value }),

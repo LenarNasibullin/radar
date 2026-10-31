@@ -14,6 +14,7 @@ import datetime as dt
 import json
 import os
 import re
+import unicodedata
 import sqlite3
 import statistics
 import sys
@@ -189,7 +190,9 @@ def phrases(name):
     return out
 
 def tokens(name):
-    name = re.sub(r"[-–—:|•·]", " ", name.lower())
+    name = unicodedata.normalize("NFKD", name.lower())
+    name = "".join(ch for ch in name if not unicodedata.combining(ch))
+    name = re.sub(r"[-–—:|•·]", " ", name)
     out = []
     for w in re.findall(r"[a-zа-яё0-9]+", name):
         if w in STOP or len(w) < 3 and w != "ai" or w.isdigit():
@@ -280,7 +283,7 @@ def build_data(conn, today=None, log=print):
         info = {
             "id": f"a{aid}", "aid": aid, "name": r[1], "dev": r[2], "cat": genre_ru, "age": age,
             "cn": cc.upper(), "rank": rank, "ratings": ratings, "perDay": int(round(per_day)), "price": r[6],
-            "history": history_days, "series": series, "release": release,
+            "history": history_days, "series": series, "release": release, "ic": r[7] or "",
         }
         all_known[aid] = info
         if age <= MAX_AGE_DAYS:
@@ -325,7 +328,7 @@ def build_data(conn, today=None, log=print):
         if prev_day and a["prev"] != a["rank"]:
             d = a["prev"] - a["rank"]
             why.append(f"Позиция {'выросла' if d > 0 else 'упала'} на {abs(d)} мест с {prev_day}")
-        why.append(f"Набирает около {a['perDay']} оценок в сутки" + ("" if a["history"] >= 2 else " (пока средний темп за всю жизнь, истории мало)"))
+        why.append(f"Набирает около {format(a['perDay'], ',').replace(',', chr(160))} оценок в сутки" + ("" if a["history"] >= 2 else " (пока средний темп за всю жизнь, истории мало)"))
         if a["history"] < 4:
             why.append(f"Данные накапливаются: снимков {n_days}, для роста нужно хотя бы 4 дня")
         a["why"] = why
@@ -344,7 +347,8 @@ def build_data(conn, today=None, log=print):
     assigned = {}
     for w in chosen:
         members = [by_aid[x] for x in by_token[w] if by_aid[x]["aid"] not in assigned]
-        if len(members) < 3:
+        wk_chk = sum(1 for m in members if 0 <= (last_d - m["release"]).days // 7 < 8)
+        if len(members) < 3 or len({m["dev"] for m in members}) < 2 or wk_chk == 0:
             continue
         for m in members:
             assigned[m["aid"]] = w
@@ -395,7 +399,7 @@ def build_data(conn, today=None, log=print):
     out_apps = []
     for a in apps:
         out_apps.append({k: a[k] for k in ("id", "name", "dev", "cat", "theme", "age", "rank", "prev", "ratings", "perDay", "signal",
-                                           "onset", "k", "tile", "why", "words", "m", "g", "dl", "cn", "series")} | {"store": "ios"})
+                                           "onset", "k", "tile", "why", "words", "m", "g", "dl", "cn", "series", "ic")} | {"store": "ios"})
     out_apps.sort(key=lambda x: -x["m"])
     return {"apps": out_apps, "themes": themes, "day": last_day, "snapshots": n_days}
 
@@ -416,7 +420,8 @@ def build_site(data, template_path=None):
     country_names = {c.upper(): n for c, n in COUNTRIES.items()}
     block = ["const APPS = " + json.dumps(data["apps"], ensure_ascii=False) + ";",
              "const THEMES = " + json.dumps(data["themes"], ensure_ascii=False) + ";",
-             "const COUNTRIES = " + json.dumps(country_names, ensure_ascii=False) + ";"]
+             "const COUNTRIES = " + json.dumps(country_names, ensure_ascii=False) + ";",
+             "const SNAPSHOTS = %d;" % data["snapshots"]]
     a = s.index("// DATA-BEGIN")
     b = s.index("// DATA-END") + len("// DATA-END")
     s = s[:a] + "\n".join(block) + s[b:]
@@ -429,10 +434,9 @@ def build_site(data, template_path=None):
     swap("CATS-ALL", option_html([(c, c) for c in cats], True))
     swap("CATS-EX", option_html([(c, c) for c in cats]))
     swap("COUNTRIES", option_html([(c, country_names[c]) for c in country_names]))
-    s = s.replace("Демо-данные", "Данные Apple · ориентир")
     if data["snapshots"] < 4:
-        note = ('<p style="font-size:13px;color:#D9B060;max-width:780px">Собрано снимков: %d. Рост и сигналы станут точными примерно через 4 дня сбора. '
-                'Пока доход и загрузки считаются по среднему темпу оценок за всю жизнь приложения и завышены у крупных брендов; смотри на позиции и новинки.</p>' % data["snapshots"])
+        note = ('<p style="font-size:13px;color:#A0A0A8;max-width:780px">Снимков: %d из 4 нужных. Рост и сигналы появятся примерно через 4 дня сбора, '
+                'а пока ориентируйтесь на позиции в чартах и новинки. Доход и загрузки (≈) — грубая оценка по числу оценок.</p>' % data["snapshots"])
     else:
         note = ""
     s = re.sub(r"<!--NOTICE-->.*?<!--/NOTICE-->", lambda m: note, s, flags=re.S)
