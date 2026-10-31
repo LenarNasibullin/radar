@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Радар приложений: главный экран</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#131315}
+ul,ol{margin:0;padding:0;list-style:none}
+h1,h2,h3,p,dl,dd{margin:0}
+::selection{background:#3B4A5A;color:#FFFFFF}
+*{scrollbar-color:#37373D #131315;scrollbar-width:thin}
+button,select,input,a{font-family:inherit}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #7AAEDC;outline-offset:2px;border-radius:8px}
+input::placeholder{color:#8C8C95}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+h1,h2{text-wrap:balance}
+.chip,.tab,.navlink,.btn-primary,.btn-secondary,.segbtn,.listrow,.exchip{transition:background-color 140ms cubic-bezier(0.23,1,0.32,1),color 140ms cubic-bezier(0.23,1,0.32,1),transform 160ms cubic-bezier(0.23,1,0.32,1)}
+.chip:active,.tab:active,.btn-primary:active,.btn-secondary:active,.segbtn:active,.exchip:active{transform:scale(0.97)}
+@media (hover:hover){
+.chip:hover{background:#26262A !important}
+.tab:hover{color:#ECECEE !important}
+.rowbtn:hover .rname{text-decoration:underline;text-underline-offset:3px}
+.navlink:hover{background:#1E1E21 !important;color:#ECECEE !important}
+.btn-primary:hover{background:#97D6A5 !important}
+.btn-secondary:hover{background:#26262A !important}
+.listrow:hover{background:#1E1E21 !important}
+.segbtn:hover{background:rgba(255,255,255,0.05)}
+}
+@media (prefers-reduced-motion: no-preference){
+.fadein{animation:fadein 150ms cubic-bezier(0.23,1,0.32,1)}
+@keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.popin{animation:popin 150ms cubic-bezier(0.23,1,0.32,1)}
+@keyframes popin{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:none}}
+}
+input[type=search]::-webkit-search-cancel-button{filter:grayscale(1) brightness(1.5)}
+@media (max-width: 760px){
+.hide-sm{display:none !important}
+.tblmin{min-width:0 !important}
+.appgrid{grid-template-columns:28px minmax(0,1fr) 62px 66px !important;gap:10px !important;padding-left:12px !important;padding-right:12px !important}
+.thgrid{grid-template-columns:minmax(0,1fr) 72px 90px !important;gap:10px !important;padding-left:12px !important;padding-right:12px !important}
+.sidenav{flex-direction:row !important;flex-wrap:wrap;align-items:center;gap:8px 16px !important;padding:12px 16px !important;border-right:0 !important;border-bottom:1px solid #2A2A2E}
+.navlist{flex-direction:row !important;flex-wrap:wrap}
+.mainpad{padding:20px 16px 32px !important}
+}
+@media (prefers-reduced-motion: no-preference){
+.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 450ms cubic-bezier(0.23,1,0.32,1) 50ms forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+}
+</style>
+</helmet>
+
+<div style="display:flex;flex-wrap:wrap;min-height:900px;background:#131315;color:#ECECEE;font-family:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:14px;line-height:1.45">
+
+<nav class="sidenav" aria-label="Основная навигация" style="flex:1 1 220px;max-width:100%;box-sizing:border-box;padding:24px 16px;border-right:1px solid #2A2A2E;background:#101012;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;align-items:center;gap:10px;padding:0 8px">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#86CB95" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-8"/><path d="M12 13c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5z"/><path d="M12 15c0-3-2.2-5-5.5-5 0 3 2.2 5 5.5 5z"/></svg>
+<span style="font-size:17px;font-weight:600;letter-spacing:-0.01em">Радар</span>
+</div>
+<ul class="navlist" style="display:flex;flex-direction:column;gap:4px">
+<li><button type="button" class="navlink" onClick="{{go.radar}}" aria-current="{{cur.radar}}" style="{{navStyle.radar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12 18.5 5.5"/></svg>Радар</button></li>
+<li><button type="button" class="navlink" onClick="{{go.collections}}" aria-current="{{cur.collections}}" style="{{navStyle.collections}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v17l-6-4-6 4z"/></svg>Подборки<sc-if value="{{hasColCount}}" hint-placeholder-val="{{false}}"><span class="mono" style="margin-left:auto;font-size:12px;color:#86CB95;background:rgba(134,203,149,0.14);padding:1px 8px;border-radius:999px">{{colCount}}</span></sc-if></button></li>
+<li><button type="button" class="navlink" onClick="{{go.watch}}" aria-current="{{cur.watch}}" style="{{navStyle.watch}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/></svg>Слежу<sc-if value="{{hasWatchCount}}" hint-placeholder-val="{{false}}"><span class="mono" style="margin-left:auto;font-size:12px;color:#86CB95;background:rgba(134,203,149,0.14);padding:1px 8px;border-radius:999px">{{watchCount}}</span></sc-if></button></li>
+<li><button type="button" class="navlink" onClick="{{go.settings}}" aria-current="{{cur.settings}}" style="{{navStyle.settings}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Настройки</button></li>
+</ul>
+</nav>
+
+<main class="mainpad" style="flex:999 1 640px;min-width:0;box-sizing:border-box;padding:28px 32px 40px;display:flex;flex-direction:column;gap:20px">
+
+<sc-if value="{{isRadarPage}}" hint-placeholder-val="{{true}}">
+<header style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px;max-width:700px">
+<sc-if value="{{isThemes}}" hint-placeholder-val="{{true}}">
+<h1 style="font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-0.015em">Темы, которые растут</h1>
+</sc-if>
+<sc-if value="{{isApps}}" hint-placeholder-val="{{false}}">
+<h1 style="font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-0.015em">Растущие новые приложения</h1>
+</sc-if>
+</div>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<p style="display:flex;flex-wrap:wrap;gap:4px 18px;margin-right:4px;font-size:12px;color:#A0A0A8">
+<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#86CB95;display:inline-block"></span>App Store, США · сегодня, 06:10</span>
+</p>
+<span style="font-size:12px;font-weight:500;color:#D9B060;background:rgba(217,176,96,0.12);padding:4px 10px;border-radius:999px">Демо-данные</span>
+<button type="button" class="btn-secondary" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px;font-weight:500;cursor:pointer">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></svg>Экспорт в CSV</button>
+</div>
+</header>
+
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px">
+<div role="tablist" aria-label="Что показывать" style="display:flex;gap:4px;padding:4px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="2">
+<button type="button" role="tab" class="tab" aria-selected="{{t.selected}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+<div style="position:relative;flex:1 1 280px;max-width:420px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A9AA3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position:absolute;left:14px;top:14px"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+<input type="search" aria-label="Поиск по названию, теме или слову" placeholder="Поиск по названию, теме или слову" value="{{q}}" onChange="{{onSearch}}" style="box-sizing:border-box;width:100%;min-height:44px;padding:0 14px 0 40px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+</div>
+</div>
+
+<section aria-label="Фильтры" style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end">
+<sc-if value="{{isThemes}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<label for="cat" style="font-size:12px;color:#A0A0A8;font-weight:500">Категория</label>
+<select id="cat" value="{{catValue}}" onChange="{{onCat}}" style="min-height:44px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+<!--CATS-ALL--><option value="all">Все категории</option>
+<option value="Здоровье и фитнес">Здоровье и фитнес</option>
+<option value="Продуктивность">Продуктивность</option>
+<option value="Финансы">Финансы</option>
+<option value="Образ жизни">Образ жизни</option><!--/CATS-ALL-->
+</select>
+</div>
+</sc-if>
+<sc-if value="{{isThemes}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<label for="tsort" style="font-size:12px;color:#A0A0A8;font-weight:500">Сортировка</label>
+<select id="tsort" value="{{themeSort}}" onChange="{{onThemeSort}}" style="min-height:44px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+<option value="delta">По приросту за неделю</option>
+<option value="count">По числу новых приложений</option>
+<option value="comp">По конкуренции (меньше выше)</option>
+</select>
+</div>
+</sc-if>
+<sc-if value="{{isThemes}}" hint-placeholder-val="{{true}}">
+<button type="button" class="chip" onClick="{{togglePreset}}" aria-pressed="{{presetOn}}" style="{{presetStyle}}">Растёт и мало конкурентов</button>
+</sc-if>
+<sc-if value="{{hasThemeFilter}}" hint-placeholder-val="{{false}}">
+<button type="button" class="chip" onClick="{{clearTheme}}" aria-label="Убрать фильтр по теме" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;background:#2C2C31;border:1px solid #4C4C54;color:#ECECEE">Тема: {{themeFilterName}}
+<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m2.5 2.5 7 7M9.5 2.5l-7 7"/></svg></button>
+</sc-if>
+</section>
+
+<sc-if value="{{isApps}}" hint-placeholder-val="{{false}}">
+<section aria-label="Параметры рейтинга" style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end">
+<div style="flex:0 1 250px;display:flex;flex-direction:column;gap:6px">
+<span id="lnlbl" style="font-size:12px;color:#A0A0A8;font-weight:500">Запущено за последние</span>
+<div role="group" aria-labelledby="lnlbl" style="display:flex;gap:4px;padding:4px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
+<sc-for list="{{launchedChips}}" as="c" hint-placeholder-count="3">
+<button type="button" class="segbtn" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="flex:0 1 250px;display:flex;flex-direction:column;gap:6px">
+<span id="gwlbl" style="font-size:12px;color:#A0A0A8;font-weight:500">Рост дохода за</span>
+<div role="group" aria-labelledby="gwlbl" style="display:flex;gap:4px;padding:4px;border-radius:12px;background:#1A1A1C;border:1px solid #2A2A2E">
+<sc-for list="{{growthChips}}" as="c" hint-placeholder-count="3">
+<button type="button" class="segbtn" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="flex:1 1 170px;display:flex;flex-direction:column;gap:6px">
+<label for="excountry" style="font-size:12px;color:#A0A0A8;font-weight:500">Страны</label>
+<select id="excountry" value="" onChange="{{onExCountry}}" style="min-height:50px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+<option value="">Исключить страну…</option>
+<!--COUNTRIES--><option value="CN">Китай</option>
+<option value="US">США</option>
+<option value="DE">Германия</option>
+<option value="BR">Бразилия</option>
+<option value="TR">Турция</option><!--/COUNTRIES-->
+</select>
+</div>
+<div style="flex:1 1 170px;display:flex;flex-direction:column;gap:6px">
+<label for="excat" style="font-size:12px;color:#A0A0A8;font-weight:500">Категории</label>
+<select id="excat" value="" onChange="{{onExCat}}" style="min-height:50px;padding:0 36px 0 14px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px">
+<option value="">Исключить категорию…</option>
+<!--CATS-EX--><option value="Здоровье и фитнес">Здоровье и фитнес</option>
+<option value="Продуктивность">Продуктивность</option>
+<option value="Финансы">Финансы</option>
+<option value="Образ жизни">Образ жизни</option><!--/CATS-EX-->
+</select>
+</div>
+</div>
+<sc-if value="{{hasActive}}" hint-placeholder-val="{{false}}">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+<span class="mono" style="font-size:12px;font-weight:500;color:#86CB95;background:rgba(134,203,149,0.14);padding:2px 10px;border-radius:999px">{{activeCount}} активно</span>
+<ul style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{exChips}}" as="c" hint-placeholder-count="2">
+<li class="popin"><button type="button" class="exchip" onClick="{{c.remove}}" aria-label="{{c.aria}}" style="display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 12px;border-radius:999px;border:1px solid rgba(227,137,122,0.45);background:rgba(227,137,122,0.12);color:#F0B3A8;font-size:13px;font-weight:500;cursor:pointer">{{c.label}}
+<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="m2.5 2.5 7 7M9.5 2.5l-7 7"/></svg></button></li>
+</sc-for>
+</ul>
+<button type="button" class="btn-secondary" onClick="{{clearAll}}" style="min-height:36px;padding:0 14px;border-radius:10px;border:1px solid #37373D;background:transparent;color:#CBCBD0;font-size:13px;font-weight:500;cursor:pointer">Очистить всё</button>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<!--NOTICE--><!--/NOTICE-->
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+<sc-if value="{{isApps}}" hint-placeholder-val="{{false}}"><h2 style="font-size:16px;font-weight:600">Рейтинг роста</h2></sc-if>
+<div style="display:flex;align-items:center;gap:14px;margin-left:auto">
+<sc-if value="{{isApps}}" hint-placeholder-val="{{false}}"><button type="button" class="chip" onClick="{{toggleScale}}" aria-pressed="{{ownScale}}" aria-label="Шкала мини-графиков" style="{{scaleStyle}}">{{scaleLabel}}</button></sc-if>
+<p class="mono" style="font-size:13px;color:#A0A0A8">Показано {{count}} из {{total}}</p>
+</div>
+</div>
+<div id="radar" style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+
+<section aria-label="Список" style="flex:3 1 640px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div style="overflow-x:auto;border:1px solid #2A2A2E;border-radius:16px;background:#1A1A1C">
+
+<sc-if value="{{isThemes}}" hint-placeholder-val="{{true}}">
+<div class="tblmin" style="min-width:700px">
+<div class="thgrid" style="display:grid;grid-template-columns:minmax(180px,1.4fr) 100px 130px 120px 100px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid #2A2A2E;font-size:12px;font-weight:500;color:#A0A0A8">
+<span>Тема</span><span>Новых за неделю</span><span class="hide-sm">8 недель</span><span>Конкуренция</span><span class="hide-sm" style="text-align:right">Темп оценок</span>
+</div>
+<ul onKeyDown="{{onKey}}">
+<sc-for list="{{themeRows}}" as="row" hint-placeholder-count="6">
+<li class="listrow thgrid" style="{{row.liStyle}}">
+<button type="button" id="{{row.domId}}" class="rowbtn" onClick="{{row.pick}}" aria-pressed="{{row.selected}}" aria-label="{{row.aria}}" style="display:flex;flex-direction:column;align-items:flex-start;min-width:0;min-height:44px;justify-content:center;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer">
+<span class="rname" style="font-weight:600;font-size:15px">{{row.name}}</span>
+<span style="font-size:12px;color:#A0A0A8">{{row.cat}}</span>
+</button>
+<span style="display:flex;flex-direction:column"><span class="mono" style="font-size:15px">{{row.count}}</span><span class="mono" style="{{row.deltaStyle}}">{{row.deltaText}}</span></span>
+<svg class="hide-sm" viewBox="0 0 120 36" width="120" height="36" role="img" aria-label="{{row.chartLabel}}" style="display:block"><path d="{{row.prevPath}}" fill="#4A4A52"/><path d="{{row.lastPath}}" fill="{{row.accent}}"/></svg>
+<span style="display:flex;flex-direction:column;gap:5px"><span style="display:flex;gap:3px">
+<span style="{{row.seg1}}"></span><span style="{{row.seg2}}"></span><span style="{{row.seg3}}"></span></span>
+<span style="{{row.compStyle}}">{{row.compLabel}}</span></span>
+<span class="hide-sm" style="display:flex;flex-direction:column;align-items:flex-end"><span class="mono" style="font-size:15px">{{row.perDay}}</span><span style="font-size:12px;color:#A0A0A8">в сутки</span></span>
+</li>
+</sc-for>
+</ul>
+</div>
+</sc-if>
+
+<sc-if value="{{isApps}}" hint-placeholder-val="{{false}}">
+<div class="tblmin" style="min-width:720px">
+<div class="appgrid" style="display:grid;grid-template-columns:36px minmax(220px,1.8fr) 80px 76px 70px 120px;gap:12px;align-items:center;padding:4px 20px;border-bottom:1px solid #2A2A2E;font-size:12px;font-weight:500;color:#A0A0A8">
+<span>#</span><span>Приложение</span>
+<button type="button" onClick="{{sortMrr}}" aria-label="Сортировать по доходу в месяц" style="{{hsMrr}}">Доход<sc-if value="{{sMrr}}" hint-placeholder-val="{{true}}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v8M2.5 6.5 6 10l3.5-3.5"/></svg></sc-if></button>
+<button type="button" onClick="{{sortGrowth}}" aria-label="Сортировать по росту" style="{{hsGrowth}}">Рост<sc-if value="{{sGrowth}}" hint-placeholder-val="{{false}}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v8M2.5 6.5 6 10l3.5-3.5"/></svg></sc-if></button>
+<button type="button" class="hide-sm" onClick="{{sortDl}}" aria-label="Сортировать по загрузкам" style="{{hsDl}}">Загрузки<sc-if value="{{sDl}}" hint-placeholder-val="{{false}}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v8M2.5 6.5 6 10l3.5-3.5"/></svg></sc-if></button>
+<span class="hide-sm">Оценок в сутки</span>
+</div>
+<ul onKeyDown="{{onKey}}">
+<sc-for list="{{rows}}" as="row" hint-placeholder-count="6">
+<li class="listrow appgrid" style="{{row.liStyle}}">
+<span class="mono" style="{{row.rankStyle}}">{{row.rankN}}</span>
+<button type="button" id="{{row.domId}}" class="rowbtn" onClick="{{row.pick}}" aria-pressed="{{row.selected}}" aria-label="{{row.aria}}" style="display:flex;align-items:center;gap:12px;min-width:0;min-height:44px;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer">
+<span style="{{row.tileStyle}}">{{row.initial}}</span>
+<span style="display:flex;flex-direction:column;min-width:0"><span class="rname" style="font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{row.name}}</span><span style="font-size:12px;color:#A0A0A8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{row.cat}} · {{row.age}} дн.</span></span>
+</button>
+<span class="mono" style="font-size:15px;text-align:right">{{row.mrrText}}</span>
+<span class="mono" style="{{row.growthStyle}}">
+<sc-if value="{{row.gUp}}" hint-placeholder-val="{{true}}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 10V2M2.5 5.5 6 2l3.5 3.5"/></svg></sc-if>
+<sc-if value="{{row.gDown}}" hint-placeholder-val="{{false}}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v8M2.5 6.5 6 10l3.5-3.5"/></svg></sc-if>
+{{row.growthText}}</span>
+<span class="mono hide-sm" style="font-size:14px;text-align:right;color:#CBCBD0">{{row.dlText}}</span>
+<svg class="hide-sm" viewBox="0 0 120 32" width="120" height="32" role="img" aria-label="{{row.chartLabel}}" style="display:block">
+<line x1="2" y1="29" x2="118" y2="29" stroke="#2A2A2E" stroke-width="1"/>
+<polyline points="{{row.pts}}" fill="none" stroke="{{row.curveColor}}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="{{row.onsetX}}" cy="{{row.onsetY}}" r="3" fill="#1A1A1C" stroke="{{row.curveColor}}" stroke-width="1.6" opacity="{{row.onsetOp}}"/>
+</svg>
+</li>
+</sc-for>
+</ul>
+</div>
+</sc-if>
+
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+<div style="padding:40px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+<p style="font-size:15px;font-weight:600">Под эти фильтры ничего не нашлось</p>
+<p style="color:#A0A0A8;max-width:460px">Расширьте период запуска, верните исключённые страны и категории, уберите фильтр по теме или очистите поиск.</p>
+<button type="button" class="btn-secondary" onClick="{{resetFilters}}" style="min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px;font-weight:500;cursor:pointer">Сбросить фильтры</button>
+</div>
+</sc-if>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:6px;max-width:780px">
+<p style="font-size:12px;color:#A0A0A8">{{legend}}</p>
+<p style="font-size:12px;color:#9A9AA3">Данные берутся из публичных чартов Apple и показывают относительную динамику. Точные установки и доход Apple не публикует, поэтому это ориентир для сравнения, а не отчёт о деньгах.</p>
+</div>
+</section>
+
+<aside aria-label="Подробности" style="flex:1 1 340px;min-width:0;box-sizing:border-box;border:1px solid #2A2A2E;border-radius:16px;background:#1A1A1C;padding:20px;display:flex;flex-direction:column;gap:20px">
+
+<sc-if value="{{hasTheme}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;flex-direction:column;gap:4px">
+<h2 style="font-size:19px;font-weight:600;letter-spacing:-0.01em">{{theme.name}}</h2>
+<p style="font-size:13px;color:#A0A0A8">{{theme.cat}}</p>
+</div>
+<dl style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;padding:14px 0;border-top:1px solid #2A2A2E;border-bottom:1px solid #2A2A2E">
+<div><dt style="font-size:12px;color:#A0A0A8">Новых за неделю</dt><dd class="mono" style="font-size:19px">{{theme.count}}</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">К прошлой неделе</dt><dd class="mono" style="{{theme.deltaStyleBig}}">{{theme.deltaText}}</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">Крупных игроков</dt><dd class="mono" style="font-size:19px">{{theme.giants}}</dd></div>
+</dl>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Новые приложения в теме, по неделям</h3>
+<svg viewBox="0 0 420 172" width="100%" role="img" aria-label="{{theme.chartLabel}}" style="display:block;height:auto;max-width:440px">
+<text x="36" y="14" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">приложений в неделю</text>
+<line x1="36" y1="136" x2="412" y2="136" stroke="#37373D"/>
+<line x1="36" y1="86" x2="412" y2="86" stroke="#2A2A2E"/>
+<line x1="36" y1="36" x2="412" y2="36" stroke="#2A2A2E"/>
+<text x="28" y="140" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">0</text>
+<text x="28" y="90" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">7</text>
+<text x="28" y="40" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">14</text>
+<path d="{{theme.prevPath}}" fill="#4A4A52"/>
+<path class="draw" pathLength="1" d="{{theme.lastPath}}" fill="{{theme.accent}}" style="stroke:{{theme.accent}};stroke-width:0.01;fill-opacity:1"/>
+<text x="36" y="158" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">8 недель назад</text>
+<text x="412" y="158" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">эта неделя</text>
+</svg>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Конкуренция: {{theme.compWord}}</h3>
+<p style="font-size:13px;color:#CBCBD0">{{theme.compNote}}</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Где искать пробел по странам</h3>
+<p style="font-size:13px;color:#CBCBD0">Растёт: <strong style="font-weight:600;color:#ECECEE">{{theme.hot}}</strong></p>
+<p style="font-size:13px;color:#CBCBD0">Мало приложений: <strong style="font-weight:600;color:#86CB95">{{theme.gaps}}</strong></p>
+<p style="font-size:12px;color:#9A9AA3">Идея: хит в одной стране можно повторить там, где конкурентов почти нет.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Слова для App Store</h3>
+<ul style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{theme.kws}}" as="k" hint-placeholder-count="3">
+<li style="display:flex;flex-direction:column;gap:2px;font-size:13px"><span style="color:#ECECEE;font-weight:500">{{k.w}}</span><span style="color:#A0A0A8">спрос: {{k.demand}} · конкуренция: {{k.diff}}</span></li>
+</sc-for>
+</ul>
+<p style="font-size:12px;color:#9A9AA3">Оценка по подсказкам поиска и числу приложений в топе. Точной частоты запросов Apple не публикует.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Лидеры темы</h3>
+<ul style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{theme.leaders}}" as="l" hint-placeholder-count="2">
+<li style="display:flex;align-items:center;gap:12px"><span style="{{l.tileStyle}}">{{l.initial}}</span>
+<span style="display:flex;flex-direction:column;min-width:0;flex:1"><span style="font-weight:600;font-size:14px">{{l.name}}</span><span style="font-size:12px;color:#A0A0A8">{{l.cat}} · {{l.age}} дн.</span></span>
+<span class="mono" style="font-size:13px;color:#CBCBD0">{{l.perDayText}}</span></li>
+</sc-for>
+</ul>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button type="button" class="btn-primary" onClick="{{theme.showApps}}" style="flex:1 1 200px;min-height:44px;padding:0 16px;border-radius:10px;border:0;background:#86CB95;color:#121214;font-size:14px;font-weight:600;cursor:pointer">Показать приложения темы</button>
+<button type="button" class="btn-secondary" onClick="{{theme.toggleCol}}" aria-pressed="{{theme.inCol}}" style="flex:1 1 200px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px;font-weight:500;cursor:pointer">{{theme.colLabel}}</button>
+</div>
+<p role="status" aria-live="polite" class="fadein" style="font-size:13px;color:#86CB95;min-height:20px">{{theme.status}}</p>
+</sc-if>
+
+<sc-if value="{{hasDetail}}" hint-placeholder-val="{{false}}">
+<div style="display:flex;align-items:center;gap:14px">
+<span style="{{detail.tileStyle}}">{{detail.initial}}</span>
+<div style="display:flex;flex-direction:column;min-width:0">
+<h2 style="font-size:19px;font-weight:600;letter-spacing:-0.01em">{{detail.name}}</h2>
+<p style="font-size:13px;color:#A0A0A8">{{detail.dev}} · {{detail.cat}} · {{detail.age}} дн.</p>
+</div>
+</div>
+<dl style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;padding:14px 0;border-top:1px solid #2A2A2E;border-bottom:1px solid #2A2A2E">
+<div><dt style="font-size:12px;color:#A0A0A8">Позиция</dt><dd class="mono" style="font-size:19px">{{detail.rankText}}</dd><dd style="font-size:12px;color:#A0A0A8">раньше {{detail.prevText}}</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">Оценок всего</dt><dd class="mono" style="font-size:19px">{{detail.ratings}}</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">В сутки</dt><dd class="mono" style="font-size:19px">+{{detail.perDay}}</dd></div>
+</dl>
+<dl style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;padding-bottom:14px;border-bottom:1px solid #2A2A2E">
+<div><dt style="font-size:12px;color:#A0A0A8">Доход в месяц</dt><dd class="mono" style="font-size:19px">{{detail.mrrText}}</dd><dd style="font-size:12px;color:#A0A0A8">оценка</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">Рост за {{detail.gwLabel}}</dt><dd class="mono" style="{{detail.growthStyle}}">{{detail.growthText}}</dd></div>
+<div><dt style="font-size:12px;color:#A0A0A8">Загрузки</dt><dd class="mono" style="font-size:19px">{{detail.dlText}}</dd><dd style="font-size:12px;color:#A0A0A8">оценка</dd></div>
+</dl>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Сколько оценок набирает в сутки, последние 90 дней</h3>
+<svg viewBox="0 0 420 172" width="100%" role="img" aria-label="{{detail.chartLabel}}" style="display:block;height:auto;max-width:440px">
+<text x="36" y="14" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">оценок в сутки, общая шкала для всех</text>
+<line x1="36" y1="136" x2="412" y2="136" stroke="#37373D"/>
+<line x1="36" y1="96" x2="412" y2="96" stroke="#2A2A2E"/>
+<line x1="36" y1="56" x2="412" y2="56" stroke="#2A2A2E"/>
+<text x="28" y="140" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">0</text>
+<text x="28" y="100" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">100</text>
+<text x="28" y="60" text-anchor="end" fill="#A0A0A8" font-size="15" font-family="Onest, system-ui, sans-serif">200</text>
+<polygon points="{{detail.area}}" fill="{{detail.curveColor}}" fill-opacity="0.12"/>
+<line x1="{{detail.onsetX}}" y1="36" x2="{{detail.onsetX}}" y2="136" stroke="#A0A0A8" stroke-width="1" stroke-dasharray="3 4" opacity="{{detail.onsetOp}}"/>
+<polyline class="draw" pathLength="1" points="{{detail.pts}}" fill="none" stroke="{{detail.curveColor}}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="{{detail.endX}}" cy="{{detail.endY}}" r="4.5" fill="{{detail.curveColor}}" stroke="#1A1A1C" stroke-width="2"/>
+
+</svg>
+<div style="display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#A0A0A8;padding-left:30px"><span>{{detail.tl}}</span><span>{{detail.tr}}</span></div>
+<p style="font-size:12px;color:#A0A0A8;min-height:18px">{{detail.onsetNote}}</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Почему в списке</h3>
+<ul style="display:flex;flex-direction:column;gap:6px;color:#CBCBD0;font-size:13px">
+<sc-for list="{{detail.why}}" as="w" hint-placeholder-count="3">
+<li style="display:flex;gap:10px"><span style="width:5px;height:5px;border-radius:50%;background:#86CB95;margin-top:8px;flex:0 0 5px"></span><span>{{w}}</span></li>
+</sc-for>
+</ul>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:14px;font-weight:600">Слова из названия и подзаголовка</h3>
+<ul style="display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{detail.words}}" as="k" hint-placeholder-count="3">
+<li style="font-size:12px;padding:4px 10px;border-radius:999px;background:#242428;color:#CBCBD0">{{k}}</li>
+</sc-for>
+</ul>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button type="button" class="btn-primary" onClick="{{detail.toggleCol}}" aria-pressed="{{detail.inCol}}" style="flex:1 1 200px;min-height:44px;padding:0 16px;border-radius:10px;border:0;background:#86CB95;color:#121214;font-size:14px;font-weight:600;cursor:pointer">{{detail.colLabel}}</button>
+<button type="button" class="btn-secondary" onClick="{{detail.toggleWatch}}" aria-pressed="{{detail.inWatch}}" style="flex:1 1 200px;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid #37373D;background:#1A1A1C;color:#ECECEE;font-size:14px;font-weight:500;cursor:pointer">{{detail.watchLabel}}</button>
+</div>
+<p role="status" aria-live="polite" class="fadein" style="font-size:13px;color:#86CB95;min-height:20px">{{detail.status}}</p>
+</sc-if>
+
+<sc-if value="{{noDetail}}" hint-placeholder-val="{{false}}">
+<p style="color:#A0A0A8">Выберите строку в списке, чтобы увидеть подробности.</p>
+</sc-if>
+</aside>
+</div>
+</div>
+
+</sc-if>
+
+<sc-if value="{{isListPage}}" hint-placeholder-val="{{false}}">
+<h1 style="font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-0.015em">{{pageTitle}}</h1>
+<sc-if value="{{hasPageItems}}" hint-placeholder-val="{{false}}">
+<ul style="display:flex;flex-direction:column;border:1px solid #2A2A2E;border-radius:16px;background:#1A1A1C;max-width:720px">
+<sc-for list="{{pageItems}}" as="it" hint-placeholder-count="2">
+<li style="display:flex;align-items:center;gap:14px;padding:12px 20px;border-bottom:1px solid #2A2A2E">
+<span style="{{it.tileStyle}}">{{it.initial}}</span>
+<span style="display:flex;flex-direction:column;min-width:0;flex:1"><span style="font-weight:600;font-size:15px">{{it.name}}</span><span style="font-size:12px;color:#A0A0A8">{{it.kind}}</span></span>
+<button type="button" class="btn-secondary" onClick="{{it.remove}}" aria-label="{{it.aria}}" style="min-height:44px;padding:0 14px;border-radius:10px;border:1px solid #37373D;background:transparent;color:#CBCBD0;font-size:13px;font-weight:500;cursor:pointer">Убрать</button>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{noPageItems}}" hint-placeholder-val="{{false}}">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px;max-width:520px">
+<p style="font-size:15px;font-weight:600">Здесь пока пусто</p>
+<p style="color:#A0A0A8">{{emptyText}}</p>
+<button type="button" class="btn-primary" onClick="{{go.radar}}" style="min-height:44px;padding:0 16px;border-radius:10px;border:0;background:#86CB95;color:#121214;font-size:14px;font-weight:600;cursor:pointer">Перейти к радару</button>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{isSettings}}" hint-placeholder-val="{{false}}">
+<h1 style="font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-0.015em">Настройки</h1>
+<p style="color:#A0A0A8;max-width:520px">Здесь появятся страна и категории по умолчанию, расписание обновления данных и выгрузка подборок. Пока всё это в разработке.</p>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+const GREEN = '#86CB95', OCHRE = '#D9B060', CORAL = '#E3897A', MUTED = '#A0A0A8';
+const YMAX = 250;
+const APP_GRID = 'display:grid;grid-template-columns:36px minmax(220px,1.8fr) 80px 76px 70px 120px;gap:16px;align-items:center;padding:12px 20px;border-bottom:1px solid #2A2A2E;';
+const THEME_GRID = 'display:grid;grid-template-columns:minmax(180px,1.4fr) 100px 130px 120px 100px;gap:14px;align-items:center;padding:12px 20px;border-bottom:1px solid #2A2A2E;';
+
+const GW_LABELS = ['2 нед.', '1 мес.', '3 мес.'];
+function compact(n) {
+  if (n >= 1e6) return (n / 1e6).toFixed(1).replace('.', ',').replace(',0', '') + 'M';
+  if (n >= 1e4) return Math.round(n / 1000) + 'K';
+  if (n >= 1000) return (n / 1000).toFixed(1).replace('.', ',').replace(',0', '') + 'K';
+  return String(n);
+}
+function segStyle(active) {
+  return 'flex:1;min-height:40px;padding:0 12px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;' +
+    (active ? 'background:rgba(134,203,149,0.14);border:1px solid rgba(134,203,149,0.45);color:#86CB95;' : 'background:transparent;border:1px solid transparent;color:#CBCBD0;');
+}
+function hsStyle(active) {
+  return 'display:flex;justify-content:flex-end;align-items:center;gap:4px;background:none;border:0;padding:0;font:inherit;font-size:12px;font-weight:500;cursor:pointer;min-height:44px;color:' + (active ? '#ECECEE' : '#A0A0A8');
+}
+
+
+// DATA-BEGIN
+const APPS = [
+  { id: 'mealmark', name: 'Mealmark', dev: 'Northfield Labs', cat: 'Здоровье и фитнес', theme: 'foodphoto', age: 41, rank: 38, prev: 76, ratings: 2140, perDay: 186, signal: 'fast', onset: 17, k: 1.55, tile: '#86CB95',
+    why: ['Вышло 41 день назад, позиция в чарте выросла на 38 мест за неделю', 'Оценок в сутки в 3,2 раза больше среднего по категории', 'Ускорение началось на 17-й день и не затухает'],
+    words: ['еда', 'фото', 'вес', 'дневник'] },
+  { id: 'quietly', name: 'Quietly', dev: 'Pinecone Studio', cat: 'Продуктивность', theme: 'screen', age: 58, rank: 61, prev: 73, ratings: 940, perDay: 64, signal: 'fast', onset: 29, k: 1.4, tile: '#7AAEDC',
+    why: ['Растёт в чарте 4 недели подряд', 'В теме «экранное время для взрослых» появляются новые конкуренты', 'Темп оценок вырос вдвое после обновления на 29-й день'],
+    words: ['экранное время', 'фокус', 'взрослые'] },
+  { id: 'oneliner', name: 'Oneliner', dev: 'Marta Voss', cat: 'Образ жизни', theme: 'journal', age: 23, rank: 112, prev: 166, ratings: 410, perDay: 52, signal: 'fast', onset: 9, k: 1.7, tile: '#B0A4DB',
+    why: ['Самый быстрый подъём в списке: 54 места за неделю', 'Автор-одиночка: приложение собрано небольшой командой', 'Тема «микро-дневник» растёт среди новых приложений'],
+    words: ['дневник', 'одна строка', 'настроение'] },
+  { id: 'focusly', name: 'Focusly', dev: 'Ilya Brandt', cat: 'Здоровье и фитнес', theme: 'adhd', age: 29, rank: 124, prev: 171, ratings: 690, perDay: 47, signal: 'fast', onset: 12, k: 1.6, tile: '#7CC4BC',
+    why: ['Подъём на 47 мест за неделю при 29 днях жизни', 'В теме «СДВГ и рутины» только один крупный игрок', 'Отзывы чаще всего упоминают простые утренние сценарии'],
+    words: ['СДВГ', 'рутины', 'утро'] },
+  { id: 'tallyfree', name: 'Tallyfree', dev: 'Brightledger', cat: 'Финансы', theme: 'tax', age: 77, rank: 95, prev: 98, ratings: 3260, perDay: 41, signal: 'watch', onset: 40, k: 1.05, tile: '#D9B060',
+    why: ['Стабильный рост оценок, но позиция почти не меняется', 'Тема «налоги фрилансера» сезонная: пик ждём к концу года', 'Оценок много, значит, пользователи платят и оставляют отзывы'],
+    words: ['налоги', 'фрилансер', 'счета'] },
+  { id: 'leashly', name: 'Leashly', dev: 'Tailwind Apps', cat: 'Образ жизни', theme: 'pets', age: 34, rank: 143, prev: 134, ratings: 520, perDay: 11, signal: 'watch', onset: 20, k: 0.9, tile: '#CDBF9C',
+    why: ['Позиция снижается второй раз за две недели', 'Оценки идут ровно, без ускорения', 'Тема «выгул питомцев» растёт слабее остальных'],
+    words: ['питомцы', 'выгул', 'расписание'] },
+  { id: 'pillnote', name: 'PillNote', dev: 'Kestrel Health', cat: 'Здоровье и фитнес', theme: 'meds', age: 66, rank: 88, prev: 67, ratings: 1780, perDay: 9, signal: 'cool', onset: 31, k: 0.5, tile: '#E3897A',
+    why: ['Потеряло 21 место за неделю', 'Темп оценок упал почти в пять раз после пика', 'Остывающие приложения полезно разбирать: что именно перестало работать'],
+    words: ['лекарства', 'напоминания', 'пожилые'] },
+  { id: 'daybook', name: 'Daybook Lite', dev: 'Anna Reyes', cat: 'Образ жизни', theme: 'journal', age: 12, rank: 177, prev: 278, ratings: 180, perDay: 38, signal: 'fast', onset: 5, k: 1.8, tile: '#DDA3BF',
+    why: ['Вышло 12 дней назад и уже в списке: 101 место за неделю', 'Данных мало, поэтому сигнал пока предварительный', 'Конкурирует с Oneliner в теме «микро-дневник»'],
+    words: ['дневник', 'простой', 'фото дня'] },
+  { id: 'calmwave', name: 'Calmwave', dev: 'Seabird Co.', cat: 'Здоровье и фитнес', theme: 'sleep', age: 85, rank: 54, prev: 58, ratings: 7900, perDay: 120, signal: 'watch', onset: 48, k: 1.1, tile: '#CDBF9C',
+    why: ['Почти на границе возраста: скоро выйдет из списка новых', 'Оценок много, но рост ровный', 'Хороший пример для сравнения: как выглядит «зрелый» рост'],
+    words: ['сон', 'дыхание', 'звуки'] }
+];
+
+
+const EXTRA = {
+  mealmark: { m: 18400, g: [34, 58, 210], dl: 21000, store: 'ios', cn: 'US' },
+  quietly: { m: 9200, g: [12, 25, 90], dl: 11000, store: 'ios', cn: 'US' },
+  oneliner: { m: 6100, g: [48, 96, 96], dl: 5400, store: 'ios', cn: 'US' },
+  focusly: { m: 7400, g: [41, 80, 80], dl: 8300, store: 'ios', cn: 'DE' },
+  tallyfree: { m: 12800, g: [6, 14, 38], dl: 9800, store: 'ios', cn: 'US' },
+  leashly: { m: 2100, g: [-4, 3, 12], dl: 4100, store: 'ios', cn: 'BR' },
+  pillnote: { m: 5300, g: [-18, -9, 22], dl: 6200, store: 'ios', cn: 'US' },
+  daybook: { m: 1500, g: [62, 62, 62], dl: 2900, store: 'ios', cn: 'TR' },
+  calmwave: { m: 31000, g: [5, 11, 24], dl: 64000, store: 'ios', cn: 'US' }
+};
+APPS.forEach(a => Object.assign(a, EXTRA[a.id]));
+APPS.push(
+  { id: 'sleepcast', name: 'Sleepcast', dev: 'Moonrow Ltd', cat: 'Здоровье и фитнес', theme: 'sleep', age: 140, rank: 47, prev: 52, ratings: 5200, perDay: 70, signal: 'watch', onset: 100, k: 1.0, tile: '#B0A4DB', m: 24000, g: [4, 9, 19], dl: 38000, store: 'ios', cn: 'US',
+    why: ['Старше трёх месяцев, но всё ещё растёт', 'Спокойный рост без резких скачков', 'Показывает, как выглядит зрелое приложение в теме сна'], words: ['сон', 'звуки', 'таймер'] },
+  { id: 'taxbuddy', name: 'Taxbuddy', dev: 'Lindner & Co', cat: 'Финансы', theme: 'tax', age: 210, rank: 120, prev: 131, ratings: 2400, perDay: 38, signal: 'fast', onset: 150, k: 1.3, tile: '#D9B060', m: 15500, g: [22, 41, 77], dl: 12000, store: 'ios', cn: 'DE',
+    why: ['Ускорение началось на 150-й день', 'Доход растёт быстрее загрузок: пользователи платят', 'Тема сезонная, пик ждём в конце года'], words: ['налоги', 'декларация', 'самозанятые'] },
+  { id: 'zhuanzhu', name: 'Zhuanzhu', dev: 'Hangzhou Mu', cat: 'Продуктивность', theme: 'screen', age: 75, rank: 33, prev: 40, ratings: 14000, perDay: 190, signal: 'fast', onset: 40, k: 1.2, tile: '#7AAEDC', m: 46000, g: [19, 38, 140], dl: 120000, store: 'ios', cn: 'CN',
+    why: ['Самый большой доход среди новых приложений', 'Основной рынок — Китай, его можно исключить в фильтре', 'Показывает, как выглядит быстрый рост на большом рынке'], words: ['фокус', 'таймер', 'учёба'] },
+  { id: 'habitloop', name: 'Habitloop', dev: 'Ruth Adler', cat: 'Здоровье и фитнес', theme: 'adhd', age: 300, rank: 90, prev: 85, ratings: 3100, perDay: 25, signal: 'watch', onset: 200, k: 0.9, tile: '#7CC4BC', m: 8800, g: [-3, 6, 15], dl: 15000, store: 'ios', cn: 'US',
+    why: ['Старше года без одного месяца, рост ровный', 'Пример более зрелого приложения в теме «СДВГ и рутины»', 'Позиция слегка снижается'], words: ['привычки', 'трекер', 'напоминания'] }
+);
+const COUNTRIES = { CN: 'Китай', US: 'США', DE: 'Германия', BR: 'Бразилия', TR: 'Турция' };
+const THEMES = [
+  { id: 'adhd', name: 'СДВГ и рутины', cat: 'Здоровье и фитнес', weeks: [2, 3, 3, 4, 5, 5, 5, 11], giants: 1, perDay: 47 },
+  { id: 'journal', name: 'Микро-дневник', cat: 'Образ жизни', weeks: [4, 5, 6, 7, 8, 8, 8, 14], giants: 2, perDay: 45 },
+  { id: 'screen', name: 'Экранное время для взрослых', cat: 'Продуктивность', weeks: [3, 4, 4, 5, 6, 6, 6, 9], giants: 3, perDay: 64 },
+  { id: 'tax', name: 'Налоги фрилансера', cat: 'Финансы', weeks: [3, 3, 4, 4, 5, 5, 5, 7], giants: 2, perDay: 41 },
+  { id: 'foodphoto', name: 'Учёт еды по фото', cat: 'Здоровье и фитнес', weeks: [5, 6, 6, 7, 7, 8, 8, 9], giants: 5, perDay: 186 },
+  { id: 'meds', name: 'Лекарства и пожилые', cat: 'Здоровье и фитнес', weeks: [3, 3, 2, 3, 3, 3, 3, 3], giants: 4, perDay: 9 },
+  { id: 'pets', name: 'Выгул питомцев', cat: 'Образ жизни', weeks: [6, 6, 7, 6, 6, 6, 6, 5], giants: 1, perDay: 11 },
+  { id: 'sleep', name: 'Сон и дыхание', cat: 'Здоровье и фитнес', weeks: [9, 9, 10, 10, 9, 10, 10, 10], giants: 6, perDay: 120 }
+];
+const THEMEX = {
+  adhd: { hot: 'США', gaps: 'Германия, Бразилия', kws: [{ w: 'сдвг планировщик', demand: 'высокий', diff: 'низкая' }, { w: 'рутина утро', demand: 'средний', diff: 'низкая' }, { w: 'визуальный таймер', demand: 'средний', diff: 'средняя' }] },
+  journal: { hot: 'США', gaps: 'Япония, Турция', kws: [{ w: 'дневник одной строкой', demand: 'средний', diff: 'низкая' }, { w: 'mood journal', demand: 'высокий', diff: 'высокая' }, { w: 'дневник с фото', demand: 'средний', diff: 'средняя' }] },
+  screen: { hot: 'США', gaps: 'Германия, Франция', kws: [{ w: 'экранное время взрослым', demand: 'средний', diff: 'средняя' }, { w: 'блокировка приложений', demand: 'высокий', diff: 'высокая' }, { w: 'цифровой детокс', demand: 'средний', diff: 'средняя' }] },
+  tax: { hot: 'США', gaps: 'Германия, Бразилия', kws: [{ w: 'налоги фрилансер', demand: 'высокий', diff: 'средняя' }, { w: 'учёт доходов ип', demand: 'средний', diff: 'низкая' }, { w: 'счета и акты', demand: 'средний', diff: 'низкая' }] },
+  foodphoto: { hot: 'США', gaps: 'Япония', kws: [{ w: 'счётчик калорий по фото', demand: 'высокий', diff: 'высокая' }, { w: 'вес еды', demand: 'средний', diff: 'средняя' }, { w: 'дневник питания', demand: 'высокий', diff: 'высокая' }] },
+  meds: { hot: 'США', gaps: 'Турция, Бразилия', kws: [{ w: 'напоминание о таблетках', demand: 'высокий', diff: 'высокая' }, { w: 'лекарства пожилым', demand: 'низкий', diff: 'низкая' }, { w: 'трекер приёма', demand: 'средний', diff: 'средняя' }] },
+  pets: { hot: 'США', gaps: 'Германия, Япония', kws: [{ w: 'выгул собак', demand: 'средний', diff: 'средняя' }, { w: 'расписание питомца', demand: 'низкий', diff: 'низкая' }, { w: 'прогулки с собакой', demand: 'средний', diff: 'средняя' }] },
+  sleep: { hot: 'США', gaps: 'Франция', kws: [{ w: 'звуки для сна', demand: 'высокий', diff: 'высокая' }, { w: 'дыхательные упражнения', demand: 'высокий', diff: 'высокая' }, { w: 'будильник сна', demand: 'средний', diff: 'средняя' }] }
+};
+THEMES.forEach(t => Object.assign(t, THEMEX[t.id]));
+// DATA-END
+
+const SIG = {
+  fast: { label: 'Быстрый рост', color: GREEN, bg: 'rgba(134,203,149,0.14)' },
+  watch: { label: 'Наблюдать', color: OCHRE, bg: 'rgba(217,176,96,0.14)' },
+  cool: { label: 'Остывает', color: CORAL, bg: 'rgba(227,137,122,0.14)' }
+};
+
+const COMP = {
+  low: { label: 'Низкая', word: 'низкая', color: GREEN, fill: 1, note: 'Крупных игроков мало: новому приложению проще пробиться в выдачу.' },
+  mid: { label: 'Средняя', word: 'средняя', color: OCHRE, fill: 2, note: 'Несколько крупных игроков: нужно чем-то заметно отличаться.' },
+  high: { label: 'Высокая', word: 'высокая', color: CORAL, fill: 3, note: 'Тема занята крупными приложениями: без сильного отличия пробиться трудно.' }
+};
+
+function fmt(n) { return new Intl.NumberFormat('ru-RU').format(n); }
+function sign(n, suffix) { return (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n) + (suffix || ''); }
+function compLevel(g) { return g <= 2 ? 'low' : g <= 4 ? 'mid' : 'high'; }
+function themeById(id) { return THEMES.find(t => t.id === id); }
+
+function rate(a, t) {
+  let r;
+  if (t <= a.onset) { r = a.perDay * (0.08 + 0.10 * (t / Math.max(a.onset, 1))); }
+  else {
+    const u = (t - a.onset) / Math.max(a.age - a.onset, 1);
+    if (a.signal === 'cool') { r = a.perDay * (1 + 3.5 * Math.exp(-Math.pow((u - 0.3) / 0.28, 2))) * Math.min(1, 0.25 + u * 5); }
+    else { r = a.perDay * (0.18 + 0.82 * Math.pow(u, a.k)); }
+  }
+  if (t > 0 && t < a.age) { r *= 1 + 0.03 * Math.sin(t * 1.7); }
+  return r;
+}
+function rateAt(a, t) {
+  if (a.series) { const L = a.series.length; const i = t - (a.age - (L - 1)); return (i >= 0 && i < L && a.series[i] != null) ? a.series[i] : 0; }
+  return rate(a, t);
+}
+function rateSeries(a) {
+  if (a.series) {
+    const L = a.series.length, out = [];
+    for (let i = 0; i < L; i++) { if (a.series[i] != null) out.push([a.age - (L - 1) + i, a.series[i]]); }
+    return out.length ? out : [[a.age, 0]];
+  }
+  const out = []; const t0 = Math.max(0, a.age - 90); for (let t = t0; t <= a.age; t++) out.push([t, rate(a, t)]); return out;
+}
+
+function barPath(values, x0, slot, w, base, scale, maxV, from, to) {
+  let d = '';
+  for (let i = from; i < to; i++) {
+    const h = Math.max(2, values[i] / maxV * scale);
+    const x = x0 + i * slot;
+    d += 'M' + x.toFixed(1) + ' ' + base + 'v' + (-h).toFixed(1) + 'h' + w + 'v' + h.toFixed(1) + 'z';
+  }
+  return d;
+}
+
+function chipStyle(active) {
+  return 'min-height:44px;padding:0 14px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;' +
+    (active ? 'background:#2C2C31;border:1px solid #4C4C54;color:#ECECEE;' : 'background:#1A1A1C;border:1px solid #37373D;color:#CBCBD0;');
+}
+function tabStyle(active) {
+  return 'min-height:40px;padding:0 18px;border-radius:9px;border:0;font-size:14px;font-weight:500;cursor:pointer;' +
+    (active ? 'background:#2C2C31;color:#ECECEE;' : 'background:transparent;color:#A0A0A8;');
+}
+
+class Component extends DCLogic {
+  renderVals() {
+    const s = this.state || {};
+    const tab = s.tab ?? 'themes';
+    const q = (s.q ?? '').trim().toLowerCase();
+    const cat = s.cat ?? 'all';
+    const launched = s.launched ?? 90;
+    const gw = s.gw ?? 0;
+    const exCountry = s.exCountry || [];
+    const exCat = s.exCat || [];
+    const preset = !!s.preset;
+    const page = s.page ?? 'radar';
+    const ownScale = !!s.ownScale;
+    const appSort = s.appSort ?? 'mrr';
+    const themeSort = s.themeSort ?? 'delta';
+    const themeFilter = s.themeFilter ?? null;
+    const col = s.col || {};
+    const watch = s.watch || {};
+    const isThemes = tab === 'themes';
+
+    // ---- apps list
+    let apps = APPS.filter(a => a.age <= launched && exCountry.indexOf(a.cn) < 0 && exCat.indexOf(a.cat) < 0 && (!themeFilter || a.theme === themeFilter));
+    if (q) apps = apps.filter(a => (a.name + ' ' + a.dev + ' ' + a.cat + ' ' + a.words.join(' ') + ' ' + themeById(a.theme).name).toLowerCase().indexOf(q) >= 0);
+    if (appSort === 'mrr') apps = apps.slice().sort((a, b) => b.m - a.m);
+    if (appSort === 'growth') apps = apps.slice().sort((a, b) => b.g[gw] - a.g[gw]);
+    if (appSort === 'dl') apps = apps.slice().sort((a, b) => b.dl - a.dl);
+    let selApp = s.selApp ?? 'mealmark';
+    if (!apps.find(a => a.id === selApp)) selApp = apps.length ? apps[0].id : null;
+
+    // ---- themes list
+    const view = (t) => {
+      const last = t.weeks[7], prev = t.weeks[6];
+      const delta = prev === 0 ? 0 : Math.round((last / prev - 1) * 100);
+      return { t, last, delta, lvl: compLevel(t.giants) };
+    };
+    let themes = THEMES.map(view).filter(v => !v.t.hidden && (cat === 'all' || v.t.cat === cat));
+    if (q) themes = themes.filter(v => (v.t.name + ' ' + v.t.cat).toLowerCase().indexOf(q) >= 0);
+    if (preset) themes = themes.filter(v => v.delta > 0 && v.t.giants <= 2);
+    if (themeSort === 'delta') themes = themes.slice().sort((a, b) => b.delta - a.delta);
+    if (themeSort === 'count') themes = themes.slice().sort((a, b) => b.last - a.last);
+    if (themeSort === 'comp') themes = themes.slice().sort((a, b) => a.t.giants - b.t.giants);
+    let selTheme = s.selTheme ?? 'journal';
+    if (!themes.find(v => v.t.id === selTheme)) selTheme = themes.length ? themes[0].t.id : null;
+
+    const toggleKey = (key, label) => () => {
+      const c = Object.assign({}, this.state && this.state.col);
+      c[key] = !c[key];
+      this.setState({ col: c });
+    };
+
+    // ---- app rows
+    const growthOf = (a) => a.g[gw];
+    const gStyle = (v, big) => 'display:inline-flex;align-items:center;justify-content:' + (big ? 'flex-start' : 'flex-end') + ';gap:3px;font-size:' + (big ? '19px' : '14px') + ';color:' + (v > 0 ? GREEN : v < 0 ? CORAL : MUTED);
+    const gText = (v) => (v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v) + '%';
+    const rows = apps.map((a, idx) => {
+      const sg = SIG[a.signal];
+      const gv = growthOf(a);
+      const ser = rateSeries(a);
+      const span = Math.min(a.age, 90), t0 = a.age - span;
+      const ym = ownScale ? Math.max.apply(null, ser.map(x => x[1])) * 1.05 : YMAX;
+      const pts = ser.map(([t, r]) => (2 + (t - t0) / span * 116).toFixed(1) + ',' + (28 - Math.min(r, ym) / ym * 24).toFixed(1)).join(' ');
+      const inWin = a.onset >= t0;
+      const ox = 2 + (a.onset - t0) / span * 116;
+      const oy = 28 - Math.min(rateAt(a, a.onset), ym) / ym * 24;
+      const selected = a.id === selApp;
+      return {
+        domId: 'app-' + a.id, name: a.name, cat: a.cat, age: a.age, initial: a.name.charAt(0),
+        rankN: idx + 1,
+        rankStyle: 'font-size:13px;text-align:center;' + (idx < 3 ? 'display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:#2C2C31;color:#ECECEE;font-weight:500' : 'color:#A0A0A8'),
+        mrrText: '$' + compact(a.m),
+        growthText: gText(gv), growthStyle: gStyle(gv, false),
+        gUp: gv > 0, gDown: gv < 0,
+        dlText: compact(a.dl),
+        pts, onsetX: ox.toFixed(1), onsetY: oy.toFixed(1), onsetOp: inWin ? 1 : 0, curveColor: sg.color,
+        chartLabel: a.name + ': оценок в сутки за последние 90 дней на общей шкале, сейчас ' + a.perDay,
+        aria: a.name + ', доход около $' + compact(a.m) + ' в месяц, рост за ' + GW_LABELS[gw] + ' ' + gText(gv) + ', загрузки ' + compact(a.dl),
+        tileStyle: 'flex:0 0 38px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:16px;font-weight:600;color:#121214;background:' + a.tile,
+        liStyle: APP_GRID + (selected ? 'background:#222226;' : ''),
+        selected,
+        pick: () => this.setState({ selApp: a.id })
+      };
+    });
+
+    // ---- theme rows
+    const themeRows = themes.map(v => {
+      const t = v.t, c = COMP[v.lvl];
+      const selected = t.id === selTheme;
+      const accent = v.delta > 0 ? GREEN : v.delta < 0 ? CORAL : MUTED;
+      const seg = (n) => 'display:inline-block;width:18px;height:6px;border-radius:3px;background:' + (n <= c.fill ? c.color : '#2F2F34');
+      return {
+        domId: 'theme-' + t.id, name: t.name, cat: t.cat, count: v.last,
+        deltaText: v.delta === 0 ? '0%' : sign(v.delta, '%'),
+        deltaStyle: 'font-size:12px;color:' + accent,
+        prevPath: barPath(t.weeks, 2, 15, 10, 36, 32, 14, 0, 7),
+        lastPath: barPath(t.weeks, 2, 15, 10, 36, 32, 14, 7, 8),
+        accent,
+        chartLabel: t.name + ': новых приложений по неделям, за 8 недель от ' + t.weeks[0] + ' до ' + t.weeks[7],
+        seg1: seg(1), seg2: seg(2), seg3: seg(3),
+        compLabel: c.label, compStyle: 'font-size:12px;font-weight:500;color:' + c.color,
+        perDay: t.perDay,
+        aria: t.name + ', новых за неделю ' + v.last + ', ' + (v.delta === 0 ? 'без изменений' : sign(v.delta, '%')) + ', конкуренция ' + c.word,
+        liStyle: THEME_GRID + (selected ? 'background:#222226;' : ''),
+        selected,
+        pick: () => this.setState({ selTheme: t.id })
+      };
+    });
+
+    // ---- app detail
+    let detail = null;
+    const sa = apps.find(a => a.id === selApp);
+    if (sa && !isThemes) {
+      const sg = SIG[sa.signal];
+      const ser = rateSeries(sa);
+      const span = Math.min(sa.age, 90), t0 = sa.age - span;
+      const X = t => 36 + (t - t0) / span * 376;
+      const Y = r => 136 - Math.min(r, YMAX) / YMAX * 100;
+      const pts = ser.map(([t, r]) => X(t).toFixed(1) + ',' + Y(r).toFixed(1)).join(' ');
+      const last = ser[ser.length - 1];
+      const area = pts + ' ' + X(last[0]).toFixed(1) + ',136 36,136';
+      const inWin = sa.onset >= t0;
+      const ox = inWin ? X(sa.onset) : 36;
+      const right = ox > 280;
+      const gv = growthOf(sa);
+      const key = 'a:' + sa.id;
+      detail = {
+        name: sa.name, dev: sa.dev, cat: sa.cat, age: sa.age, initial: sa.name.charAt(0),
+        rankText: '#' + sa.rank, prevText: '#' + sa.prev, ratings: fmt(sa.ratings), perDay: sa.perDay,
+        mrrText: '$' + compact(sa.m), dlText: compact(sa.dl), gwLabel: GW_LABELS[gw],
+        growthText: gText(gv), growthStyle: gStyle(gv, true),
+        tileStyle: 'flex:0 0 48px;width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:20px;font-weight:600;color:#121214;background:' + sa.tile,
+        pts, area, curveColor: sg.color,
+        endX: X(last[0]).toFixed(1), endY: Y(last[1]).toFixed(1),
+        onsetX: ox.toFixed(1), onsetOp: inWin ? 1 : 0,
+        labelX: (right ? ox - 6 : ox + 6).toFixed(1), labelAnchor: right ? 'end' : 'start',
+        onsetNote: inWin ? 'Пунктир: рост ускорился на ' + sa.onset + '-й день жизни.' : 'Рост ускорился раньше, чем эти 90 дней.',
+        tl: 'день ' + t0, tr: 'день ' + sa.age + ' (сегодня)',
+        chartLabel: sa.name + ': оценок в сутки за последние 90 дней на общей шкале, сейчас ' + sa.perDay,
+        why: sa.why, words: sa.words,
+        inCol: !!col[key], colLabel: col[key] ? 'В подборке' : 'Добавить в подборку', toggleCol: toggleKey(key),
+        inWatch: !!watch[key], watchLabel: watch[key] ? 'Слежу' : 'Следить',
+        toggleWatch: () => { const w = Object.assign({}, this.state && this.state.watch); w[key] = !w[key]; this.setState({ watch: w }); },
+        status: col[key] ? sa.name + ' добавлено в подборку' : (watch[key] ? 'Слежу за ' + sa.name : '')
+      };
+    }
+
+    // ---- theme detail
+    let theme = null;
+    const stv = themes.find(v => v.t.id === selTheme);
+    if (stv && isThemes) {
+      const t = stv.t, c = COMP[stv.lvl];
+      const accent = stv.delta > 0 ? GREEN : stv.delta < 0 ? CORAL : MUTED;
+      const slot = 47, w = 30;
+      const lastTop = 136 - Math.max(2, t.weeks[7] / 14 * 100);
+      const key = 't:' + t.id;
+      const leaders = APPS.filter(a => a.theme === t.id).map(a => ({
+        name: a.name, cat: a.cat, age: a.age, initial: a.name.charAt(0), perDayText: '+' + a.perDay + '/сут',
+        tileStyle: 'flex:0 0 34px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:15px;font-weight:600;color:#121214;background:' + a.tile
+      }));
+      theme = {
+        name: t.name, cat: t.cat, count: stv.last, giants: t.giants,
+        deltaText: stv.delta === 0 ? '0%' : sign(stv.delta, '%'),
+        deltaStyleBig: 'font-size:19px;color:' + accent,
+        prevPath: barPath(t.weeks, 44.5, slot, w, 136, 100, 14, 0, 7),
+        lastPath: barPath(t.weeks, 44.5, slot, w, 136, 100, 14, 7, 8),
+        accent, valX: (44.5 + 7 * slot + w / 2).toFixed(1), valY: (lastTop - 6).toFixed(1),
+        chartLabel: t.name + ': новых приложений по неделям, за 8 недель от ' + t.weeks[0] + ' до ' + t.weeks[7],
+        compWord: c.word, compNote: c.note + ' Здесь крупных игроков (больше 5 000 оценок): ' + t.giants + '.',
+        leaders,
+        hot: t.hot, gaps: t.gaps, kws: t.kws,
+        showApps: () => this.setState({ tab: 'apps', themeFilter: t.id, q: '', launched: 365, exCountry: [], exCat: [] }),
+        inCol: !!col[key], colLabel: col[key] ? 'Тема в подборке' : 'Добавить тему в подборку', toggleCol: toggleKey(key),
+        status: col[key] ? 'Тема «' + t.name + '» добавлена в подборку' : ''
+      };
+    }
+
+    const empty = isThemes ? themeRows.length === 0 : rows.length === 0;
+    const activeIds = isThemes ? themes.map(v => 'theme-' + v.t.id) : apps.map(a => 'app-' + a.id);
+    const activeSel = isThemes ? (selTheme ? 'theme-' + selTheme : null) : (selApp ? 'app-' + selApp : null);
+    const onKey = (e) => {
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      const i = activeIds.indexOf(activeSel);
+      const n = e.key === 'ArrowDown' ? Math.min(activeIds.length - 1, i + 1) : Math.max(0, i - 1);
+      const id = activeIds[n];
+      if (!id) return;
+      this.setState(isThemes ? { selTheme: id.slice(6) } : { selApp: id.slice(4) });
+      try { setTimeout(() => { const el = document.getElementById(id); if (el) el.focus(); }, 0); } catch (err) {}
+    };
+
+    const themeName = themeFilter ? themeById(themeFilter).name : '';
+
+    const colKeys = Object.keys(col).filter(k => col[k]);
+    const watchKeys = Object.keys(watch).filter(k => watch[k]);
+    const mkItems = (keys, which) => keys.map(k => {
+      const isApp = k.charAt(0) === 'a';
+      const id = k.slice(2);
+      const a = isApp ? APPS.find(x => x.id === id) : null;
+      const t = isApp ? null : themeById(id);
+      const name = isApp ? a.name : t.name;
+      return {
+        name, kind: isApp ? 'Приложение · ' + a.cat : 'Тема · ' + t.cat, initial: name.charAt(0), aria: 'Убрать ' + name,
+        tileStyle: 'flex:0 0 38px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:16px;font-weight:600;color:#121214;background:' + (isApp ? a.tile : '#B0A4DB'),
+        remove: () => { const o = Object.assign({}, this.state && this.state[which]); o[k] = false; const u = {}; u[which] = o; this.setState(u); }
+      };
+    });
+    const pageItems = page === 'collections' ? mkItems(colKeys, 'col') : page === 'watch' ? mkItems(watchKeys, 'watch') : [];
+    const navStyle = (on) => 'display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;border:0;width:100%;font:inherit;font-weight:500;cursor:pointer;text-align:left;text-decoration:none;' + (on ? 'background:#242428;color:#ECECEE;' : 'background:transparent;color:#A0A0A8;');
+    const goTo = (k) => () => this.setState({ page: k });
+    const activeCount = exCountry.length + exCat.length;
+    const exChips = exCountry.map(c => ({ label: COUNTRIES[c], aria: 'Вернуть страну ' + COUNTRIES[c], remove: () => this.setState({ exCountry: exCountry.filter(x => x !== c) }) }))
+      .concat(exCat.map(c => ({ label: c, aria: 'Вернуть категорию ' + c, remove: () => this.setState({ exCat: exCat.filter(x => x !== c) }) })));
+    const sorted = (v) => appSort === v;
+    return {
+      isThemes, isApps: !isThemes,
+      tabs: [['themes', 'Темы'], ['apps', 'Приложения']].map(([v, l]) => ({ label: l, selected: tab === v, style: tabStyle(tab === v), pick: () => this.setState({ tab: v }) })),
+      q: s.q ?? '', onSearch: (e) => this.setState({ q: e.target.value }),
+      catValue: cat, onCat: (e) => this.setState({ cat: e.target.value }),
+      themeSort, onThemeSort: (e) => this.setState({ themeSort: e.target.value }),
+      presetOn: preset, presetStyle: chipStyle(preset), togglePreset: () => this.setState({ preset: !preset }),
+      launchedChips: [[90, '3 мес.'], [180, '6 мес.'], [365, '1 год']].map(([v, l]) => ({ label: l, pressed: launched === v, style: segStyle(launched === v), pick: () => this.setState({ launched: v }) })),
+      growthChips: [[0, '2 нед.'], [1, '1 мес.'], [2, '3 мес.']].map(([v, l]) => ({ label: l, pressed: gw === v, style: segStyle(gw === v), pick: () => this.setState({ gw: v, appSort: 'growth' }) })),
+      colCount: Object.keys(col).filter(k => col[k]).length, hasColCount: Object.keys(col).filter(k => col[k]).length > 0,
+      watchCount: Object.keys(watch).filter(k => watch[k]).length, hasWatchCount: Object.keys(watch).filter(k => watch[k]).length > 0,
+      isRadarPage: page === 'radar', isListPage: page === 'collections' || page === 'watch', isSettings: page === 'settings',
+      pageTitle: page === 'collections' ? 'Подборки' : 'Слежу', pageItems, hasPageItems: pageItems.length > 0, noPageItems: pageItems.length === 0,
+      emptyText: page === 'collections' ? 'Добавляйте приложения и темы кнопкой «Добавить в подборку» на радаре. Они появятся здесь.' : 'Нажимайте «Следить» в карточке приложения, чтобы собрать их здесь.',
+      go: { radar: goTo('radar'), collections: goTo('collections'), watch: goTo('watch'), settings: goTo('settings') },
+      cur: { radar: page === 'radar' ? 'page' : 'false', collections: page === 'collections' ? 'page' : 'false', watch: page === 'watch' ? 'page' : 'false', settings: page === 'settings' ? 'page' : 'false' },
+      navStyle: { radar: navStyle(page === 'radar'), collections: navStyle(page === 'collections'), watch: navStyle(page === 'watch'), settings: navStyle(page === 'settings') },
+      ownScale, scaleStyle: chipStyle(ownScale).replace('min-height:44px', 'min-height:36px'), scaleLabel: ownScale ? 'Шкала: у каждого своя' : 'Шкала: общая', toggleScale: () => this.setState({ ownScale: !ownScale }),
+      activeCount, hasActive: activeCount > 0, exChips,
+      onExCountry: (e) => { const v = e.target.value; if (v && exCountry.indexOf(v) < 0) this.setState({ exCountry: exCountry.concat([v]) }); },
+      onExCat: (e) => { const v = e.target.value; if (v && exCat.indexOf(v) < 0) this.setState({ exCat: exCat.concat([v]) }); },
+      clearAll: () => this.setState({ exCountry: [], exCat: [] }),
+      sortMrr: () => this.setState({ appSort: 'mrr' }), sortGrowth: () => this.setState({ appSort: 'growth' }), sortDl: () => this.setState({ appSort: 'dl' }),
+      hsMrr: hsStyle(sorted('mrr')), hsGrowth: hsStyle(sorted('growth')), hsDl: hsStyle(sorted('dl')),
+      sMrr: sorted('mrr'), sGrowth: sorted('growth'), sDl: sorted('dl'),
+      hasThemeFilter: !!themeFilter && !isThemes, themeFilterName: themeFilter ? themeById(themeFilter).name : '',
+      clearTheme: () => this.setState({ themeFilter: null }),
+      listTitle: isThemes ? 'Темы' : 'Рейтинг роста',
+      count: isThemes ? themeRows.length : rows.length, total: isThemes ? THEMES.filter(x => !x.hidden).length : APPS.length,
+      legend: isThemes
+        ? 'Столбики показывают, сколько новых приложений вышло в теме за неделю (последний столбик выделен). Конкуренция считается по числу крупных приложений с оценками выше 5 000. Темп оценок: медиана оценок в сутки у приложений темы.'
+        : 'Доход и загрузки оценены по открытым данным, это ориентир. Рост показывает изменение дохода за выбранный период. Кривые справа по умолчанию на одной шкале: чем выше правый конец, тем быстрее сейчас набираются оценки. Кнопка «Шкала» показывает форму роста каждого приложения отдельно.',
+      rows, themeRows, empty, onKey,
+      resetFilters: () => this.setState({ q: '', cat: 'all', launched: 365, gw: 0, exCountry: [], exCat: [], themeFilter: null, preset: false }),
+      hasTheme: !!theme, theme: theme || {},
+      hasDetail: !!detail, detail: detail || {},
+      noDetail: !theme && !detail
+    };
+  }
+}
+</script>
+</body>
+</html>
