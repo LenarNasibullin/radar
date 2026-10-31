@@ -283,7 +283,7 @@ def build_data(conn, today=None, log=print):
         info = {
             "id": f"a{aid}", "aid": aid, "name": r[1], "dev": r[2], "cat": genre_ru, "age": age,
             "cn": cc.upper(), "rank": rank, "ratings": ratings, "perDay": int(round(per_day)), "price": r[6],
-            "history": history_days, "series": series, "release": release, "ic": r[7] or "",
+            "history": history_days, "series": series, "release": release, "ic": r[7] or "", "url": f"https://apps.apple.com/{cc}/app/id{aid}",
         }
         all_known[aid] = info
         if age <= MAX_AGE_DAYS:
@@ -399,7 +399,7 @@ def build_data(conn, today=None, log=print):
     out_apps = []
     for a in apps:
         out_apps.append({k: a[k] for k in ("id", "name", "dev", "cat", "theme", "age", "rank", "prev", "ratings", "perDay", "signal",
-                                           "onset", "k", "tile", "why", "words", "m", "g", "dl", "cn", "series", "ic")} | {"store": "ios"})
+                                           "onset", "k", "tile", "why", "words", "m", "g", "dl", "cn", "series", "ic", "url")} | {"store": "ios"})
     out_apps.sort(key=lambda x: -x["m"])
     return {"apps": out_apps, "themes": themes, "day": last_day, "snapshots": n_days}
 
